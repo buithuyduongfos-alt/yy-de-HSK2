@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的汉字 · Ôn tập từ vựng tiếng Trung</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
+
+  :root{
+    --bg:#EAF3FB;
+    --bg-dark:#D7E7F5;
+    --line: rgba(20,55,85,0.12);
+    --ink:#12293D;
+    --ink-soft:#3C5A73;
+    --blue:#2C5F8A;
+    --blue-dark:#1B3A57;
+    --blue-mid:#CFE3F5;
+    --seal:#B23A2E;
+    --gold:#C79A4B;
+    --good:#3E8E5B;
+    --bad:#C0483C;
+    --muted:#7A8FA3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 12% 6%, rgba(44,95,138,0.10), transparent 42%),
+      radial-gradient(circle at 92% 88%, rgba(44,95,138,0.12), transparent 48%),
+      var(--bg);
+    font-family:'Be Vietnam Pro', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding:32px 16px 64px;
+  }
+  .wrap{max-width:920px;margin:0 auto;}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--blue);font-weight:700;margin-bottom:6px;
+  }
+  .eyebrow .rule{flex:1;height:1px;background:var(--line);}
+  h1{
+    font-family:'Noto Serif SC', serif;
+    font-weight:900;
+    font-size:32px;
+    margin:0 0 4px;
+    line-height:1.15;
+  }
+  h1 span{color:var(--blue);}
+  .sub{
+    font-size:14.5px;color:var(--ink-soft);margin:0 0 22px;line-height:1.55;
+    max-width:560px;
+  }
+  h2{
+    font-family:'Noto Serif SC', serif;
+    font-weight:800;
+    font-size:22px;
+    margin:0 0 4px;
+  }
+  h2 span{color:var(--blue);}
+
+  .progress-row{
+    display:flex;align-items:center;gap:12px;
+    font-size:13px;color:var(--muted);margin-bottom:26px;
+  }
+  .progress-track{flex:1;max-width:220px;height:5px;background:var(--bg-dark);border-radius:3px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .4s ease;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
+    gap:18px;
+    margin-bottom:52px;
+  }
+
+  .card-scene{
+    aspect-ratio: 3 / 4;
+    perspective:1200px;
+  }
+  .card{
+    position:relative;width:100%;height:100%;
+    transform-style:preserve-3d;
+    transition:transform .55s cubic-bezier(.65,.05,.36,1);
+    cursor:pointer;
+  }
+  .card.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;
+    backface-visibility:hidden;
+    border-radius:6px;
+    background:#fff;
+    border:1px solid var(--line);
+    box-shadow:0 2px 8px rgba(18,41,61,0.08);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:14px;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:20px 20px;
+    background-position:center;
+  }
+  .face::before{
+    content:'';position:absolute;inset:8px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    pointer-events:none;
+  }
+  .face-back{transform:rotateY(180deg);background:var(--blue-mid);}
+
+  .hanzi{
+    font-family:'Noto Serif SC', serif;
+    font-weight:900;
+    font-size:44px;
+    line-height:1;
+    color:var(--ink);
+    letter-spacing:.02em;
+  }
+  .hanzi.wide{font-size:32px;}
+  .card-index{
+    position:absolute; top:9px; left:11px;
+    font-size:9.5px; color:var(--muted); letter-spacing:.06em;
+  }
+  .seal{
+    position:absolute; bottom:9px; right:9px;
+    width:24px;height:24px;
+    border:1.6px solid var(--seal);
+    border-radius:4px;
+    color:var(--seal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Noto Serif SC',serif;font-weight:700;font-size:11px;
+    transform:rotate(-6deg);
+    opacity:.85;
+  }
+  .flip-hint{
+    position:absolute;bottom:8px;left:0;right:0;
+    text-align:center;font-size:9px;color:var(--muted);
+    letter-spacing:.02em;
+  }
+
+  .icon-badge{
+    width:56px;height:56px;border-radius:50%;
+    background:#fff;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:8px;
+  }
+  .icon-badge svg{width:34px;height:34px;}
+  .pinyin{
+    font-style:italic;font-weight:600;font-size:12.5px;
+    color:var(--blue-dark); margin:0 0 3px;
+    font-family:'Be Vietnam Pro',sans-serif;
+  }
+  .nghia{
+    font-size:14px;font-weight:600;color:var(--ink);
+    text-align:center;margin:0;
+  }
+  .hanzi-small{
+    font-family:'Noto Serif SC',serif;font-size:11px;color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  .know-toggle{
+    position:absolute; top:6px; right:6px;
+    width:22px;height:22px;border-radius:50%;
+    border:1.5px solid var(--muted);
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--muted);
+    cursor:pointer;
+    transition:all .15s ease;
+    z-index:2;
+  }
+  .know-toggle:hover{border-color:var(--gold);}
+  .know-toggle.on{background:var(--gold);border-color:var(--gold);color:#3d2c0d;}
+
+  /* ---------- exercise section ---------- */
+  .quiz-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:28px 24px;
+    box-shadow:0 4px 16px rgba(18,41,61,0.08);
+    max-width:520px;
+  }
+  .quiz-meta{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);margin-bottom:18px;
+  }
+  .quiz-prompt-label{
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--blue);font-weight:700;margin:0 0 8px;
+  }
+  .quiz-nghia{
+    font-family:'Noto Serif SC', serif;
+    font-weight:800;
+    font-size:28px;
+    color:var(--ink);
+    margin:0 0 22px;
+  }
+  .quiz-options{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  }
+  .opt-btn{
+    font-family:inherit;font-size:16px;font-weight:600;
+    padding:14px 10px;border-radius:8px;
+    border:1.5px solid var(--line);
+    background:var(--bg);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .opt-btn:hover:not(:disabled){border-color:var(--blue);}
+  .opt-btn:disabled{cursor:default;}
+  .opt-btn.correct{background:var(--good);border-color:var(--good);color:#fff;}
+  .opt-btn.wrong{background:var(--bad);border-color:var(--bad);color:#fff;}
+
+  .opt-btn.hanzi-opt{
+    font-family:'Noto Serif SC', serif;
+    font-weight:800;
+    font-size:40px;
+    padding:22px 10px;
+  }
+  .quiz-pinyin-prompt{
+    font-style:italic;font-weight:700;font-size:32px;
+    color:var(--blue-dark);margin:0 0 22px;
+    font-family:'Be Vietnam Pro',sans-serif;
+  }
+
+  .quiz-feedback{
+    margin-top:16px;font-size:14px;font-weight:600;min-height:20px;
+  }
+  .quiz-feedback.good{color:var(--good);}
+  .quiz-feedback.bad{color:var(--bad);}
+
+  .quiz-footer{
+    display:flex;justify-content:flex-end;margin-top:18px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:10px 20px;border-radius:22px;
+    border:1.5px solid var(--blue);
+    background:var(--blue);
+    font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;
+    cursor:pointer;transition:all .15s ease;
+  }
+  .btn:hover{background:var(--blue-dark);border-color:var(--blue-dark);}
+  .btn:disabled{opacity:.4;cursor:default;}
+  .btn.ghost{background:transparent;color:var(--blue);}
+  .btn.ghost:hover{background:var(--bg-dark);}
+
+  .quiz-done{
+    text-align:center;
+  }
+  .quiz-done .score{
+    font-family:'Noto Serif SC', serif;font-weight:900;font-size:40px;
+    color:var(--blue);margin:6px 0 4px;
+  }
+
+  @media (max-width:420px){
+    .grid{grid-template-columns:repeat(2, 1fr);}
+    h1{font-size:26px;}
+    .quiz-options{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">我的汉字<span class="rule"></span>日课</div>
+  <h1>Một ngày <span>ốm bệnh</span></h1>
+  <p class="sub">10 từ vựng theo dòng thời gian một ngày — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.</p>
+
+  <div class="progress-row">
+    <span id="progressLabel">0 / 10 đã thuộc</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="eyebrow">练习<span class="rule"></span>02</div>
+  <h2>Bài tập <span>chọn phiên âm</span></h2>
+  <p class="sub">Xem nghĩa tiếng Việt và chọn phiên âm (pinyin) tương ứng.</p>
+
+  <div class="quiz-card" id="quizCard"></div>
+
+  <div class="eyebrow" style="margin-top:52px;">练习<span class="rule"></span>03</div>
+  <h2>Bài tập <span>chọn chữ Hán đúng</span></h2>
+  <p class="sub">Xem phiên âm và chọn chữ Hán tương ứng.</p>
+
+  <div class="quiz-card" id="hanziQuizCard"></div>
+
+</div>
+
+<script>
+const INK = '#12293D';
+const SEAL = '#B23A2E';
+
+function svg(inner, stroke){
+  return `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="${stroke}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+}
+
+const ICONS = {
+  everyday: svg(`
+    <rect x="22" y="26" width="56" height="52" rx="6"/>
+    <line x1="22" y1="42" x2="78" y2="42"/>
+    <line x1="35" y1="18" x2="35" y2="30"/>
+    <line x1="65" y1="18" x2="65" y2="30"/>
+    <path d="M40 58 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0" stroke-dasharray="4 5"/>
+    <path d="M50 52 v6 l4 4" stroke-width="4"/>
+  `, INK),
+  wake: svg(`
+    <line x1="14" y1="80" x2="86" y2="80"/>
+    <rect x="20" y="62" width="60" height="16" rx="3"/>
+    <rect x="24" y="52" width="16" height="12" rx="2"/>
+    <circle cx="60" cy="42" r="9"/>
+    <path d="M60 33 v-8 M53 47 l-8 7 M69 40 l10 -3"/>
+  `, INK),
+  goout: svg(`
+    <path d="M30 84 V22 h34 v62" />
+    <line x1="24" y1="84" x2="70" y2="84"/>
+    <circle cx="58" cy="52" r="2.5" fill="${INK}" stroke="none"/>
+    <circle cx="82" cy="55" r="8"/>
+    <path d="M82 63 v14 M82 70 l-9 9 M82 70 l9 6 M75 78 l-6 8 M89 76 l7 6"/>
+  `, INK),
+  jog: svg(`
+    <circle cx="62" cy="22" r="8"/>
+    <path d="M58 30 l-10 18 l14 8 l6 20"/>
+    <path d="M48 48 l-20 6 M62 38 l16 -6 M72 56 l14 12 M68 76 l-14 10"/>
+    <path d="M14 40 h10 M10 50 h12 M14 60 h8" stroke-width="3.5" opacity=".6"/>
+  `, INK),
+  sick: svg(`
+    <circle cx="50" cy="46" r="20"/>
+    <path d="M42 42 l6 6 M48 42 l-6 6" stroke="${SEAL}"/>
+    <path d="M58 42 l6 6 M64 42 l-6 6" stroke="${SEAL}"/>
+    <path d="M42 56 q8 -6 16 0" stroke="${SEAL}"/>
+    <path d="M30 20 q4 -8 0 -14 M42 16 q4 -8 0 -14 M56 16 q-4 -8 0 -14" stroke-width="3.5" opacity=".7"/>
+  `, INK),
+  hospital: svg(`
+    <rect x="26" y="30" width="48" height="50" rx="3"/>
+    <line x1="50" y1="40" x2="50" y2="56" stroke="${SEAL}"/>
+    <line x1="42" y1="48" x2="58" y2="48" stroke="${SEAL}"/>
+    <rect x="40" y="66" width="20" height="14"/>
+    <circle cx="80" cy="70" r="7"/>
+    <path d="M80 77 v9 M80 82 l-7 6 M80 82 l7 5"/>
+    <path d="M18 84 h64" opacity=".5"/>
+  `, INK),
+  medicine: svg(`
+    <rect x="34" y="18" width="18" height="46" rx="9" transform="rotate(-30 43 41)"/>
+    <line x1="36" y1="34" x2="50" y2="26" stroke="${SEAL}" transform="rotate(-30 43 41)"/>
+    <path d="M62 58 q10 4 8 16 q-2 10 -14 8 q-8 -2 -6 -12" />
+    <path d="M56 52 l16 20" stroke-width="3"/>
+  `, INK),
+  rest: svg(`
+    <path d="M18 74 q0 -20 16 -20 h28 q16 0 16 20" />
+    <line x1="14" y1="74" x2="86" y2="74"/>
+    <line x1="24" y1="54" x2="24" y2="74"/>
+    <line x1="76" y1="54" x2="76" y2="74"/>
+    <circle cx="40" cy="34" r="8"/>
+    <path d="M52 30 h14 M58 24 h14 M64 18 h12" stroke-width="3.5" opacity=".65"/>
+  `, INK),
+  time: svg(`
+    <circle cx="50" cy="50" r="30"/>
+    <line x1="50" y1="50" x2="50" y2="32" stroke-width="5"/>
+    <line x1="50" y1="50" x2="63" y2="56" stroke-width="5"/>
+    <line x1="50" y1="16" x2="50" y2="21"/>
+    <line x1="50" y1="79" x2="50" y2="84"/>
+    <line x1="16" y1="50" x2="21" y2="50"/>
+    <line x1="79" y1="50" x2="84" y2="50"/>
+  `, INK),
+  busy: svg(`
+    <circle cx="42" cy="30" r="10"/>
+    <path d="M26 68 q0 -20 16 -20 q16 0 16 20"/>
+    <rect x="62" y="20" width="20" height="24" rx="2" stroke="${SEAL}"/>
+    <line x1="66" y1="27" x2="78" y2="27" stroke="${SEAL}"/>
+    <line x1="66" y1="33" x2="74" y2="33" stroke="${SEAL}"/>
+    <path d="M60 60 l6 6 M60 66 l6 -6" stroke="${SEAL}"/>
+    <path d="M70 58 v14 M64 62 h12" stroke="${SEAL}"/>
+  `, INK),
+};
+
+const WORDS = [
+  { hanzi:'每天', pinyin:'měi tiān', nghia:'mỗi ngày', icon:'everyday' },
+  { hanzi:'起床', pinyin:'qǐ chuáng', nghia:'ngủ dậy', icon:'wake' },
+  { hanzi:'出门', pinyin:'chū mén', nghia:'ra khỏi nhà', icon:'goout' },
+  { hanzi:'跑步', pinyin:'pǎo bù', nghia:'chạy bộ', icon:'jog' },
+  { hanzi:'生病', pinyin:'shēng bìng', nghia:'bị ốm', icon:'sick' },
+  { hanzi:'出院', pinyin:'chū yuàn', nghia:'xuất viện', icon:'hospital' },
+  { hanzi:'吃药', pinyin:'chī yào', nghia:'uống thuốc', icon:'medicine' },
+  { hanzi:'休息', pinyin:'xiū xi', nghia:'nghỉ ngơi', icon:'rest' },
+  { hanzi:'时间', pinyin:'shí jiān', nghia:'thời gian', icon:'time' },
+  { hanzi:'忙', pinyin:'máng', nghia:'bận rộn', icon:'busy' },
+];
+
+/* ---------------- flashcards ---------------- */
+const known = new Array(WORDS.length).fill(false);
+
+function pad(n){ return String(n+1).padStart(2,'0'); }
+
+function renderProgress(){
+  const count = known.filter(Boolean).length;
+  document.getElementById('progressLabel').textContent = `${count} / ${WORDS.length} đã thuộc`;
+  document.getElementById('progressFill').style.width = (count/WORDS.length*100) + '%';
+}
+
+function buildCard(w, i){
+  const scene = document.createElement('div');
+  scene.className = 'card-scene';
+
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const front = document.createElement('div');
+  front.className = 'face face-front';
+  front.innerHTML = `
+    <div class="card-index">${pad(i)}</div>
+    <div class="hanzi ${w.hanzi.length>2?'wide':''}">${w.hanzi}</div>
+    <div class="seal">词</div>
+    <div class="flip-hint">Chạm để xem hình</div>
+  `;
+
+  const back = document.createElement('div');
+  back.className = 'face face-back';
+  back.innerHTML = `
+    <div class="icon-badge">${ICONS[w.icon]}</div>
+    <p class="pinyin">${w.pinyin}</p>
+    <p class="nghia">${w.nghia}</p>
+    <p class="hanzi-small">${w.hanzi}</p>
+    <div class="flip-hint">Chạm để xem chữ Hán</div>
+  `;
+
+  const knowBtn = document.createElement('button');
+  knowBtn.className = 'know-toggle';
+  knowBtn.textContent = '✓';
+  knowBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    known[i] = !known[i];
+    knowBtn.classList.toggle('on', known[i]);
+    renderProgress();
+  });
+
+  card.appendChild(front);
+  card.appendChild(back);
+  card.appendChild(knowBtn);
+  card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+
+  scene.appendChild(card);
+  return scene;
+}
+
+const grid = document.getElementById('grid');
+WORDS.forEach((w,i)=> grid.appendChild(buildCard(w,i)));
+renderProgress();
+
+/* ---------------- quiz ---------------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+let quizOrder = shuffle(WORDS.map((_,i)=>i));
+let quizIndex = 0;
+let quizScore = 0;
+let answered = false;
+
+const quizCard = document.getElementById('quizCard');
+
+function makeOptions(correctIdx){
+  const others = WORDS.map((_,i)=>i).filter(i=>i!==correctIdx);
+  const distractors = shuffle(others).slice(0,3);
+  return shuffle([correctIdx, ...distractors]);
+}
+
+function renderQuiz(){
+  if(quizIndex >= quizOrder.length){
+    quizCard.innerHTML = `
+      <div class="quiz-done">
+        <p class="quiz-prompt-label">Hoàn thành</p>
+        <div class="score">${quizScore} / ${quizOrder.length}</div>
+        <p style="color:var(--ink-soft);margin-bottom:20px;">câu trả lời đúng</p>
+        <button class="btn" id="restartBtn">Làm lại bài tập</button>
+      </div>
+    `;
+    document.getElementById('restartBtn').addEventListener('click', ()=>{
+      quizOrder = shuffle(WORDS.map((_,i)=>i));
+      quizIndex = 0;
+      quizScore = 0;
+      renderQuiz();
+    });
+    return;
+  }
+
+  const wIdx = quizOrder[quizIndex];
+  const w = WORDS[wIdx];
+  const options = makeOptions(wIdx);
+  answered = false;
+
+  quizCard.innerHTML = `
+    <div class="quiz-meta">
+      <span>Câu ${quizIndex+1} / ${quizOrder.length}</span>
+      <span>Điểm: ${quizScore}</span>
+    </div>
+    <p class="quiz-prompt-label">Nghĩa</p>
+    <p class="quiz-nghia">${w.nghia}</p>
+    <div class="quiz-options" id="quizOptions"></div>
+    <p class="quiz-feedback" id="quizFeedback"></p>
+    <div class="quiz-footer">
+      <button class="btn" id="nextBtn" disabled>Câu tiếp theo →</button>
+    </div>
+  `;
+
+  const optWrap = document.getElementById('quizOptions');
+  const feedback = document.getElementById('quizFeedback');
+  const nextBtn = document.getElementById('nextBtn');
+
+  options.forEach(optIdx=>{
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.textContent = WORDS[optIdx].pinyin;
+    b.addEventListener('click', ()=>{
+      if(answered) return;
+      answered = true;
+      const isCorrect = optIdx === wIdx;
+      b.classList.add(isCorrect ? 'correct' : 'wrong');
+      if(isCorrect){
+        quizScore++;
+        feedback.textContent = 'Chính xác!';
+        feedback.className = 'quiz-feedback good';
+      } else {
+        feedback.textContent = `Chưa đúng — đáp án là "${w.pinyin}"`;
+        feedback.className = 'quiz-feedback bad';
+        [...optWrap.children].forEach(c=>{
+          if(c.textContent === w.pinyin) c.classList.add('correct');
+        });
+      }
+      [...optWrap.children].forEach(c=> c.disabled = true);
+      nextBtn.disabled = false;
+    });
+    optWrap.appendChild(b);
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    quizIndex++;
+    renderQuiz();
+  });
+}
+
+renderQuiz();
+
+/* ---------------- hanzi-choice quiz ---------------- */
+const HANZI_ITEMS = [
+  { pinyin:'xiū', correct:'休', options:['休','体'] },
+  { pinyin:'yào', correct:'药', options:['药','菜'] },
+  { pinyin:'jiān', correct:'间', options:['问','间'] },
+  { pinyin:'pǎo', correct:'跑', options:['跑','踢'] },
+  { pinyin:'měi', correct:'每', options:['每','海'] },
+];
+
+let hanziOrder = shuffle(HANZI_ITEMS.map((_,i)=>i));
+let hanziIndex = 0;
+let hanziScore = 0;
+let hanziAnswered = false;
+
+const hanziQuizCard = document.getElementById('hanziQuizCard');
+
+function renderHanziQuiz(){
+  if(hanziIndex >= hanziOrder.length){
+    hanziQuizCard.innerHTML = `
+      <div class="quiz-done">
+        <p class="quiz-prompt-label">Hoàn thành</p>
+        <div class="score">${hanziScore} / ${hanziOrder.length}</div>
+        <p style="color:var(--ink-soft);margin-bottom:20px;">câu trả lời đúng</p>
+        <button class="btn" id="hanziRestartBtn">Làm lại bài tập</button>
+      </div>
+    `;
+    document.getElementById('hanziRestartBtn').addEventListener('click', ()=>{
+      hanziOrder = shuffle(HANZI_ITEMS.map((_,i)=>i));
+      hanziIndex = 0;
+      hanziScore = 0;
+      renderHanziQuiz();
+    });
+    return;
+  }
+
+  const item = HANZI_ITEMS[hanziOrder[hanziIndex]];
+  const options = shuffle(item.options);
+  hanziAnswered = false;
+
+  hanziQuizCard.innerHTML = `
+    <div class="quiz-meta">
+      <span>Câu ${hanziIndex+1} / ${hanziOrder.length}</span>
+      <span>Điểm: ${hanziScore}</span>
+    </div>
+    <p class="quiz-prompt-label">Phiên âm</p>
+    <p class="quiz-pinyin-prompt">${item.pinyin}</p>
+    <div class="quiz-options" id="hanziOptions"></div>
+    <p class="quiz-feedback" id="hanziFeedback"></p>
+    <div class="quiz-footer">
+      <button class="btn" id="hanziNextBtn" disabled>Câu tiếp theo →</button>
+    </div>
+  `;
+
+  const optWrap = document.getElementById('hanziOptions');
+  const feedback = document.getElementById('hanziFeedback');
+  const nextBtn = document.getElementById('hanziNextBtn');
+
+  options.forEach(char=>{
+    const b = document.createElement('button');
+    b.className = 'opt-btn hanzi-opt';
+    b.textContent = char;
+    b.addEventListener('click', ()=>{
+      if(hanziAnswered) return;
+      hanziAnswered = true;
+      const isCorrect = char === item.correct;
+      b.classList.add(isCorrect ? 'correct' : 'wrong');
+      if(isCorrect){
+        hanziScore++;
+        feedback.textContent = 'Chính xác!';
+        feedback.className = 'quiz-feedback good';
+      } else {
+        feedback.textContent = `Chưa đúng — đáp án là "${item.correct}"`;
+        feedback.className = 'quiz-feedback bad';
+        [...optWrap.children].forEach(c=>{
+          if(c.textContent === item.correct) c.classList.add('correct');
+        });
+      }
+      [...optWrap.children].forEach(c=> c.disabled = true);
+      nextBtn.disabled = false;
+    });
+    optWrap.appendChild(b);
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    hanziIndex++;
+    renderHanziQuiz();
+  });
+}
+
+renderHanziQuiz();
+</script>
+</body>
+</html>
