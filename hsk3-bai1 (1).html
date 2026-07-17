@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的汉字 · HSK3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F1FB;
+    --surface:#FFFFFF;
+    --surface-soft:#EFE3FA;
+    --line:#E1D2F2;
+    --purple-900:#372A52;
+    --purple-700:#6B4699;
+    --purple-500:#9B72D6;
+    --purple-300:#C7A9EA;
+    --purple-100:#EFE3FA;
+    --ink:#3A2E52;
+    --muted:#8577A0;
+    --seal:#8C3F82;
+    --success:#3E9C6F;
+    --success-bg:#E1F5EA;
+    --error:#CE5A82;
+    --error-bg:#FBE6EE;
+    --shadow: 0 10px 30px -12px rgba(88,49,140,0.25);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 8% 0%, #EBDCF8 0%, transparent 45%),
+      radial-gradient(circle at 100% 8%, #E4D3F5 0%, transparent 40%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Be Vietnam Pro", system-ui, sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  h1,h2,h3{ font-family:"Noto Serif SC","Be Vietnam Pro",serif; margin:0; }
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  .wrap{ max-width:960px; margin:0 auto; padding:0 20px; }
+
+  .tab-nav{ display:flex; justify-content:center; gap:10px; margin:6px 0 6px; flex-wrap:wrap; }
+  .tab-btn{
+    border:1.5px solid var(--purple-300); background:var(--surface); color:var(--purple-700);
+    padding:10px 24px; border-radius:999px; font-weight:700; font-size:.95rem; cursor:pointer; transition:.2s;
+  }
+  .tab-btn.active{ background:var(--purple-700); border-color:var(--purple-700); color:#fff; box-shadow:var(--shadow); }
+  .tab-btn:not(.active):hover{ background:var(--purple-100); }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+
+  .formula{
+    background:var(--purple-100); border-radius:14px; padding:14px 18px; margin:16px 0 4px;
+    font-family:"Noto Serif SC",serif; font-weight:700; color:var(--purple-900); text-align:center;
+    font-size:1.05rem; letter-spacing:.02em;
+  }
+  .grammar-text{ color:var(--ink); font-size:.95rem; margin:14px 0 0; }
+  .example-list{ list-style:none; padding:0; margin:16px 0 0; display:flex; flex-direction:column; gap:10px; }
+  .example-list li{ background:var(--purple-100); border:1px solid var(--line); border-radius:12px; padding:12px 16px; }
+  .ex-cn{ display:block; font-family:"Noto Serif SC",serif; font-size:1.08rem; color:var(--purple-900); }
+  .ex-cn b{ color:var(--seal); }
+  .ex-vi{ display:block; margin-top:5px; color:var(--muted); font-size:.87rem; }
+
+  .chunk-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:18px 0 6px; }
+  .chunk-chip{
+    background:var(--purple-100); border:1.5px solid var(--purple-300); color:var(--purple-900);
+    padding:8px 14px; border-radius:10px; font-family:"Noto Serif SC",serif; font-weight:700; font-size:1.05rem;
+  }
+  .type-vi{ text-align:center; color:var(--muted); font-size:.88rem; font-style:italic; margin-bottom:14px; }
+  .type-input{
+    width:100%; border:1.5px solid var(--line); border-radius:12px; padding:12px 16px;
+    font-family:"Noto Serif SC",serif; font-size:1.1rem; color:var(--purple-900);
+  }
+  .type-input:focus{ border-color:var(--purple-500); outline:none; }
+  .type-actions{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .check-btn{
+    border:none; background:var(--purple-700); color:#fff; padding:10px 22px; border-radius:999px;
+    font-weight:700; cursor:pointer; transition:.15s;
+  }
+  .check-btn:hover{ background:var(--purple-900); }
+  .reveal-btn{
+    border:1.5px solid var(--purple-500); background:#fff; color:var(--purple-700); padding:10px 20px;
+    border-radius:999px; font-weight:700; cursor:pointer; transition:.15s;
+  }
+  .reveal-btn:hover{ background:var(--purple-100); }
+  .type-answer{
+    margin-top:12px; font-family:"Noto Serif SC",serif; font-size:1.05rem; color:var(--purple-700);
+    font-weight:700; display:none;
+  }
+  .type-answer.show{ display:block; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:960px; margin:0 auto; padding:22px 20px 10px;
+    flex-wrap:wrap; gap:12px;
+  }
+  .brand{
+    font-family:"Noto Serif SC",serif; font-weight:700; font-size:1.05rem;
+    color:var(--purple-900); letter-spacing:.02em;
+  }
+  .brand span{ color:var(--purple-500); }
+  .lessons{ display:flex; gap:8px; }
+  .lesson-pill{
+    border:1.5px solid var(--purple-300); background:var(--surface);
+    color:var(--purple-700); padding:7px 16px; border-radius:999px;
+    font-weight:600; font-size:.85rem; cursor:pointer; transition:.2s;
+  }
+  .lesson-pill.active{ background:var(--purple-700); border-color:var(--purple-700); color:#fff; }
+  .lesson-pill:disabled{ opacity:.45; cursor:not-allowed; }
+  .lesson-pill:not(:disabled):hover{ transform:translateY(-1px); box-shadow:var(--shadow); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:960px; margin:18px auto 8px; padding:44px 36px;
+    background:var(--surface); border-radius:28px; box-shadow:var(--shadow);
+    position:relative; overflow:hidden; text-align:center;
+  }
+  .hero::before{
+    content:"打算 周末 复习 游戏 地图";
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:"Noto Serif SC",serif; font-size:5.6rem; font-weight:900;
+    color:var(--purple-100); white-space:nowrap; letter-spacing:.3em;
+    z-index:0; pointer-events:none; opacity:.55;
+  }
+  .hero-inner{ position:relative; z-index:1; }
+  .seal{
+    width:64px; height:64px; margin:0 auto 14px; border-radius:14px;
+    background:linear-gradient(155deg,var(--seal),#6B2E63);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:"Noto Serif SC",serif; font-weight:900; font-size:1.5rem;
+    box-shadow:0 8px 18px -6px rgba(140,63,130,.55), inset 0 0 0 3px rgba(255,255,255,.18);
+    transform:rotate(-6deg);
+  }
+  .hero h1{ font-size:clamp(1.7rem,4vw,2.5rem); color:var(--purple-900); font-weight:900; }
+  .hero h1 small{ display:block; font-size:.5em; color:var(--purple-500); font-weight:600; margin-top:6px; letter-spacing:.06em; }
+  .hero-sub{ color:var(--muted); max-width:480px; margin:14px auto 26px; font-size:.98rem; }
+
+  .progress-wrap{ max-width:420px; margin:0 auto; }
+  .progress-bar{ height:10px; border-radius:999px; background:var(--purple-100); overflow:hidden; }
+  .progress-fill{ height:100%; width:0%; border-radius:999px;
+    background:linear-gradient(90deg,var(--purple-500),var(--seal)); transition:width .5s ease; }
+  #progressLabel{ display:block; margin-top:10px; font-size:.85rem; font-weight:600; color:var(--purple-700); }
+
+  /* ---------- section shell ---------- */
+  section.block{
+    max-width:960px; margin:26px auto; background:var(--surface);
+    border-radius:24px; padding:32px; box-shadow:var(--shadow);
+  }
+  .eyebrow{
+    display:inline-block; font-size:.75rem; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--purple-500); background:var(--purple-100);
+    padding:4px 12px; border-radius:999px; margin-bottom:10px;
+  }
+  .block h2{ font-size:1.5rem; color:var(--purple-900); font-weight:800; }
+  .block > p.desc{ color:var(--muted); margin-top:8px; font-size:.95rem; max-width:640px; }
+
+  /* ---------- vocab grid ---------- */
+  .vocab-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:14px; margin-top:24px; }
+  .vcard{
+    perspective:900px; height:150px; cursor:pointer;
+  }
+  .vcard-inner{
+    position:relative; width:100%; height:100%; transition:transform .55s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .vcard.flipped .vcard-inner{ transform:rotateY(180deg); }
+  .vface{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:16px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:10px; text-align:center; border:1.5px solid var(--line);
+  }
+  .vfront{ background:var(--purple-100); }
+  .vfront .hz{ font-family:"Noto Serif SC",serif; font-size:1.9rem; font-weight:700; color:var(--purple-900); }
+  .vfront .py{ margin-top:4px; font-style:italic; color:var(--purple-700); font-size:.85rem; font-weight:600; }
+  .vback{ background:var(--purple-700); color:#fff; transform:rotateY(180deg); font-style:italic; font-size:1.2rem; font-weight:700; }
+  .vcard.known .vfront{ background:var(--success-bg); border-color:var(--success); }
+  .stamp{
+    position:absolute; top:6px; right:6px; width:26px; height:26px; border-radius:50%;
+    border:2px solid var(--purple-300); background:#fff; color:var(--purple-300);
+    font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:900;
+    transition:.2s; z-index:2;
+  }
+  .vcard.known .stamp{ background:var(--success); border-color:var(--success); color:#fff; transform:rotate(-8deg) scale(1.05); }
+  .stamp:hover{ box-shadow:0 0 0 4px var(--purple-100); }
+
+  /* ---------- quiz ---------- */
+  .quiz-box{ margin-top:20px; }
+  .quiz-progress{ font-size:.8rem; color:var(--muted); font-weight:600; margin-bottom:10px; }
+  .quiz-prompt{
+    background:var(--purple-100); border-radius:18px; padding:26px 22px; text-align:center; margin-bottom:18px;
+  }
+  .quiz-prompt .qmain{ font-family:"Noto Serif SC",serif; font-weight:700; color:var(--purple-900); font-size:1.5rem; }
+  .quiz-prompt .qsub{ color:var(--purple-700); margin-top:6px; font-size:.95rem; }
+  .speak-btn{
+    margin-top:14px; border:none; background:var(--purple-700); color:#fff; width:52px; height:52px;
+    border-radius:50%; font-size:1.3rem; cursor:pointer; box-shadow:var(--shadow);
+  }
+  .speak-btn:hover{ background:var(--purple-900); }
+  .options{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:520px){ .options{ grid-template-columns:1fr; } }
+  .opt{
+    border:1.5px solid var(--line); background:#fff; border-radius:14px; padding:14px 16px;
+    text-align:left; cursor:pointer; font-size:1rem; font-weight:600; color:var(--ink); transition:.15s;
+  }
+  .opt .oh{ font-family:"Noto Serif SC",serif; font-size:1.15rem; }
+  .opt .op{ font-style:italic; color:var(--muted); font-weight:500; font-size:.85rem; }
+  .opt:hover:not(:disabled){ border-color:var(--purple-500); background:var(--purple-100); }
+  .opt.correct{ border-color:var(--success); background:var(--success-bg); color:var(--success); }
+  .opt.wrong{ border-color:var(--error); background:var(--error-bg); color:var(--error); }
+  .opt:disabled{ cursor:default; }
+  .quiz-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:18px; }
+  .feedback{ font-size:.9rem; font-weight:700; min-height:1.2em; }
+  .feedback.ok{ color:var(--success); } .feedback.no{ color:var(--error); }
+  .next-btn{
+    border:none; background:var(--purple-900); color:#fff; padding:10px 22px; border-radius:999px;
+    font-weight:700; cursor:pointer; opacity:.35; pointer-events:none; transition:.2s;
+  }
+  .next-btn.ready{ opacity:1; pointer-events:auto; }
+  .next-btn:hover.ready{ background:var(--purple-700); }
+  .quiz-done{ text-align:center; padding:24px 0; }
+  .quiz-done .score{ font-size:2.2rem; font-weight:900; color:var(--purple-700); font-family:"Noto Serif SC",serif; }
+  .retry-btn{
+    margin-top:14px; border:1.5px solid var(--purple-500); background:#fff; color:var(--purple-700);
+    padding:9px 20px; border-radius:999px; font-weight:700; cursor:pointer;
+  }
+  .retry-btn:hover{ background:var(--purple-100); }
+
+  /* ---------- matching game ---------- */
+  .match-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); gap:10px; margin-top:20px; }
+  .match-tile{
+    aspect-ratio:1; border:1.5px solid var(--line); background:#fff; border-radius:14px;
+    font-family:"Noto Serif SC",serif; font-size:1.6rem; font-weight:700; color:var(--purple-900);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.15s;
+  }
+  .match-tile:hover:not(.matched):not(:disabled){ border-color:var(--purple-500); background:var(--purple-100); }
+  .match-tile.selected{ background:var(--purple-500); color:#fff; border-color:var(--purple-500); transform:scale(1.06); }
+  .match-tile.matched{ background:var(--success-bg); border-color:var(--success); color:var(--success); opacity:.5; cursor:default; }
+  .match-tile.wrong{ background:var(--error-bg); border-color:var(--error); color:var(--error); animation:shake .3s; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-4px);} 75%{transform:translateX(4px);} }
+  .match-footer{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; flex-wrap:wrap; gap:10px; }
+  .match-progress{ font-size:.85rem; font-weight:700; color:var(--purple-700); }
+  .shuffle-btn{
+    border:1.5px solid var(--purple-500); background:#fff; color:var(--purple-700); padding:8px 18px;
+    border-radius:999px; font-weight:700; cursor:pointer; transition:.15s;
+  }
+  .shuffle-btn:hover{ background:var(--purple-100); }
+  .matched-list{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .matched-chip{
+    background:var(--success-bg); color:var(--success); border:1px solid var(--success);
+    padding:6px 13px; border-radius:999px; font-size:.85rem; font-weight:700;
+  }
+  .matched-chip b{ font-family:"Noto Serif SC",serif; font-size:1rem; }
+
+  footer{ text-align:center; margin-top:40px; color:var(--muted); font-size:.9rem; }
+  footer .quote{ font-family:"Noto Serif SC",serif; font-size:1.2rem; color:var(--purple-700); font-weight:700; margin-bottom:6px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+  }
+  :focus-visible{ outline:3px solid var(--purple-500); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">我的汉字 <span>· HSK3</span></div>
+  <nav class="lessons">
+    <button class="lesson-pill active">第一课</button>
+    <button class="lesson-pill" disabled title="Sắp ra mắt">第二课</button>
+    <button class="lesson-pill" disabled title="Sắp ra mắt">第三课</button>
+  </nav>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="seal">课1</div>
+    <h1>HSK3. ĐỪNG BỎ CUỘC<small>Bài số 1 — Cuối tuần bạn dự định làm gì?</small></h1>
+    <p class="hero-sub">Xem thử bạn đã thuộc 13 từ vựng này chưa. Lật thẻ để học, đóng dấu khi đã thuộc, rồi thử sức với các phần luyện tập bên dưới.</p>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressLabel">0 / 13 đã thuộc</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" type="button" data-tab="vocab">📚 Từ vựng</button>
+    <button class="tab-btn" type="button" data-tab="grammar">📖 Ngữ pháp</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-vocab">
+
+  <section class="block">
+    <span class="eyebrow">生词卡</span>
+    <h2>Thẻ từ vựng</h2>
+    <p class="desc">Bấm vào thẻ để lật xem nghĩa. Bấm dấu tròn ở góc để đánh dấu "đã thuộc".</p>
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
+
+  <section class="block" id="ex1">
+    <span class="eyebrow">练习01</span>
+    <h2>Từ này đọc sao?</h2>
+    <p class="desc">Xem nghĩa tiếng Việt và chọn phiên âm (pinyin) tương ứng.</p>
+    <div class="quiz-box" data-mode="pinyin"></div>
+  </section>
+
+  <section class="block" id="ex2">
+    <span class="eyebrow">练习02</span>
+    <h2>Nhìn cho kỹ</h2>
+    <p class="desc">Xem phiên âm và nghĩa, chọn đúng chữ Hán tương ứng — coi chừng các chữ trông rất giống nhau!</p>
+    <div class="quiz-box" data-mode="hanzi"></div>
+  </section>
+
+  <section class="block" id="ex3">
+    <span class="eyebrow">练习03</span>
+    <h2>Phải nghe</h2>
+    <p class="desc">Bấm nút loa để nghe phát âm, sau đó chọn chữ Hán phù hợp.</p>
+    <div class="quiz-box" data-mode="listen"></div>
+  </section>
+
+  <section class="block" id="ex4">
+    <span class="eyebrow">连一连</span>
+    <h2>Ghép</h2>
+    <p class="desc">Các thẻ chữ Hán bị trộn lẫn. Bấm chọn những thẻ có thể ghép lại thành một từ hoặc cụm từ có nghĩa.</p>
+    <div class="match-grid" id="matchGrid"></div>
+    <div class="feedback" id="matchFeedback" style="text-align:center;margin-top:14px;"></div>
+    <div class="matched-list" id="matchedList"></div>
+    <div class="match-footer">
+      <div class="match-progress" id="matchProgress">0 / 11 cụm đã ghép đúng</div>
+      <button class="shuffle-btn" type="button" id="shuffleBtn">Xáo lại</button>
+    </div>
+  </section>
+
+  </div>
+
+  <div class="tab-panel" id="tab-grammar">
+
+  <section class="block">
+    <span class="eyebrow">语法 01</span>
+    <h2>结果补语 "好"</h2>
+    <p class="desc">Bổ ngữ chỉ kết quả "好"</p>
+    <div class="formula">动词 + 好</div>
+    <p class="grammar-text">"好" đứng ngay sau động từ để làm bổ ngữ kết quả, biểu thị hành động đã hoàn thành, đạt kết quả tốt hoặc xong xuôi như mong muốn — chứ không chỉ đơn thuần là "tốt".</p>
+    <ul class="example-list">
+      <li><span class="ex-cn">小刚已经找<b>好</b>饭馆了。</span><span class="ex-vi">Tiểu Cương đã tìm xong quán ăn rồi.</span></li>
+      <li><span class="ex-cn">快到新年了，但是我还没买<b>好</b>飞机票。</span><span class="ex-vi">Sắp đến năm mới rồi, nhưng tôi vẫn chưa mua xong vé máy bay.</span></li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <span class="eyebrow">语法 02</span>
+    <h2>"一……也/都 + 不/没……"</h2>
+    <p class="desc">Cấu trúc diễn tả sự phủ định hoàn toàn</p>
+    <div class="formula">一 + (lượng từ/danh từ) + 也/都 + 不/没 + động từ/tính từ</div>
+    <p class="grammar-text">Cấu trúc này nhấn mạnh sự phủ định tuyệt đối, không có ngoại lệ — dịch là "một... cũng không/chẳng...", "không... một... nào cả".</p>
+    <ul class="example-list">
+      <li><span class="ex-cn">他生病了，所以今天<b>一</b>点儿咖啡<b>也没</b>喝。</span><span class="ex-vi">Anh ấy bị ốm, nên hôm nay không uống một chút cà phê nào cả.</span></li>
+      <li><span class="ex-cn">明天有考试，但是他现在<b>一</b>点儿<b>也不</b>着急。</span><span class="ex-vi">Ngày mai có kỳ thi, nhưng bây giờ anh ấy chẳng lo lắng chút nào.</span></li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <span class="eyebrow">语法 03</span>
+    <h2>连词 "那"</h2>
+    <p class="desc">Liên từ "那" — nghĩa "vậy thì, thế thì"</p>
+    <div class="formula">Câu 1，那 + Câu 2</div>
+    <p class="grammar-text">"那" đứng đầu câu thứ hai, dùng để nối tiếp ý với câu trước, nêu ra kết quả hoặc đề nghị được rút ra từ điều vừa nói — dịch là "vậy thì", "thế thì".</p>
+    <ul class="example-list">
+      <li><span class="ex-cn">你周末没事，<b>那</b>我们一起去南方旅行吧。</span><span class="ex-vi">Cuối tuần bạn không có việc gì à, vậy thì chúng ta cùng đi miền Nam du lịch nhé.</span></li>
+      <li><span class="ex-cn">你要搬家，<b>那</b>我可以带地图帮你找新房子。</span><span class="ex-vi">Bạn sắp chuyển nhà à, vậy thì mình có thể mang bản đồ giúp bạn tìm nhà mới.</span></li>
+    </ul>
+  </section>
+
+  <section class="block" id="ex5">
+    <span class="eyebrow">写句子</span>
+    <h2>Sắp xếp lại câu</h2>
+    <p class="desc">Các từ trong câu bị xáo trộn. Gõ lại câu theo đúng thứ tự vào ô bên dưới (không cần gõ dấu câu).</p>
+    <div class="sentence-task" id="sentenceTaskBox"></div>
+  </section>
+
+  </div>
+
+  <footer>
+    <div class="quote">万事开头难，坚持就是胜利</div>
+    Vạn sự khởi đầu nan, kiên trì là chiến thắng — 加油！
+  </footer>
+
+</div>
+
+<script>
+const VOCAB = [
+  {h:'打算', p:'dǎsuàn', m:'dự định, định làm gì', trap:{h:'打等',p:'dǎ děng'}, wrongs:[{h:'商量',p:'shāngliang',m:'bàn bạc'},{h:'打扫',p:'dǎsǎo',m:'quét dọn'}]},
+  {h:'周末', p:'zhōumò', m:'cuối tuần', trap:{h:'周未',p:'zhōu wèi'}, wrongs:[{h:'星期',p:'xīngqī',m:'tuần lễ'},{h:'周围',p:'zhōuwéi',m:'xung quanh'}]},
+  {h:'跟', p:'gēn', m:'theo, cùng với', trap:{h:'跑',p:'pǎo'}, wrongs:[{h:'报',p:'bào',m:'báo'},{h:'很',p:'hěn',m:'rất'}]},
+  {h:'一直', p:'yìzhí', m:'luôn luôn, liên tục', trap:{h:'一真',p:'yì zhēn'}, wrongs:[{h:'一起',p:'yìqǐ',m:'cùng nhau'},{h:'一定',p:'yídìng',m:'nhất định'}]},
+  {h:'游戏', p:'yóuxì', m:'trò chơi', trap:{h:'游找',p:'yóu zhǎo'}, wrongs:[{h:'汉语',p:'Hànyǔ',m:'tiếng Hán'},{h:'游泳',p:'yóuyǒng',m:'bơi lội'}]},
+  {h:'复习', p:'fùxí', m:'ôn tập', trap:{h:'夏习',p:'xià xí'}, wrongs:[{h:'学习',p:'xuéxí',m:'học tập'},{h:'练习',p:'liànxí',m:'luyện tập'}]},
+  {h:'着急', p:'zháojí', m:'lo lắng, sốt ruột', trap:{h:'看急',p:'kàn jí'}, wrongs:[{h:'生气',p:'shēngqì',m:'giận'},{h:'高兴',p:'gāoxìng',m:'vui'}]},
+  {h:'南方', p:'nánfāng', m:'phương Nam, miền Nam', trap:{h:'男方',p:'nánfāng'}, wrongs:[{h:'地方',p:'dìfāng',m:'nơi chốn'},{h:'东方',p:'dōngfāng',m:'phương Đông'}]},
+  {h:'北方', p:'běifāng', m:'phương Bắc, miền Bắc', trap:{h:'比方',p:'bǐfāng'}, wrongs:[{h:'南方',p:'nánfāng',m:'phương Nam'},{h:'东方',p:'dōngfāng',m:'phương Đông'}]},
+  {h:'带', p:'dài', m:'mang theo', trap:{h:'常',p:'cháng'}, wrongs:[{h:'代',p:'dài',m:'thay thế'},{h:'但',p:'dàn',m:'nhưng'}]},
+  {h:'面包', p:'miànbāo', m:'bánh mì', trap:{h:'面条',p:'miàntiáo'}, wrongs:[{h:'米饭',p:'mǐfàn',m:'cơm'},{h:'蛋糕',p:'dàngāo',m:'bánh kem'}]},
+  {h:'地图', p:'dìtú', m:'bản đồ', trap:{h:'地因',p:'dì yīn'}, wrongs:[{h:'地方',p:'dìfāng',m:'nơi chốn'},{h:'天气',p:'tiānqì',m:'thời tiết'}]},
+  {h:'搬', p:'bān', m:'chuyển (nhà, đồ)', trap:{h:'般',p:'bān'}, wrongs:[{h:'船',p:'chuán',m:'thuyền'},{h:'拿',p:'ná',m:'cầm, lấy'}]},
+];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* ---------- vocab flashcards ---------- */
+const known = new Array(VOCAB.length).fill(false);
+const grid = document.getElementById('vocabGrid');
+
+VOCAB.forEach((item, idx) => {
+  const card = document.createElement('div');
+  card.className = 'vcard';
+  card.innerHTML = `
+    <div class="vcard-inner">
+      <div class="vface vfront">
+        <div class="hz">${item.h}</div>
+      </div>
+      <div class="vface vback">${item.p}</div>
+    </div>
+    <button class="stamp" type="button" aria-label="Đánh dấu đã thuộc">✓</button>
+  `;
+  card.addEventListener('click', (e) => {
+    if(e.target.closest('.stamp')) return;
+    card.classList.toggle('flipped');
+  });
+  card.querySelector('.stamp').addEventListener('click', (e) => {
+    e.stopPropagation();
+    known[idx] = !known[idx];
+    card.classList.toggle('known', known[idx]);
+    updateProgress();
+  });
+  grid.appendChild(card);
+});
+
+function updateProgress(){
+  const count = known.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (count/VOCAB.length*100) + '%';
+  document.getElementById('progressLabel').textContent = `${count} / ${VOCAB.length} đã thuộc`;
+}
+
+/* ---------- quiz engine ---------- */
+function buildHanziOptions(item){
+  const opts = [
+    {h:item.h, p:item.p, correct:true},
+    {h:item.trap.h, p:item.trap.p, correct:false},
+    ...item.wrongs.map(w => ({h:w.h, p:w.p, correct:false})),
+  ];
+  return shuffle(opts);
+}
+
+function buildPinyinOptions(item){
+  const pool = [item, item.trap, ...item.wrongs].map(x => x.p);
+  const seen = new Set();
+  let opts = [{p:item.p, correct:true}];
+  seen.add(item.p);
+  [item.trap.p, ...item.wrongs.map(w=>w.p)].forEach(p => {
+    if(!seen.has(p) && opts.length < 4){ opts.push({p, correct:false}); seen.add(p); }
+  });
+  // backfill if duplicates removed too many
+  let extra = shuffle(VOCAB.map(v=>v.p).filter(p => p!==item.p));
+  let i=0;
+  while(opts.length < 4 && i < extra.length){
+    if(!seen.has(extra[i])){ opts.push({p:extra[i], correct:false}); seen.add(extra[i]); }
+    i++;
+  }
+  return shuffle(opts);
+}
+
+function initQuiz(container, mode){
+  let order = shuffle(VOCAB.map((_, i) => i));
+  let qi = 0;
+  let score = 0;
+  let answered = false;
+
+  function render(){
+    if(qi >= order.length){
+      container.innerHTML = `
+        <div class="quiz-done">
+          <div>Hoàn thành!</div>
+          <div class="score">${score} / ${order.length}</div>
+          <button class="retry-btn" type="button">Làm lại</button>
+        </div>`;
+      container.querySelector('.retry-btn').addEventListener('click', () => {
+        order = shuffle(VOCAB.map((_, i) => i));
+        qi = 0; score = 0;
+        render();
+      });
+      return;
+    }
+
+    const item = VOCAB[order[qi]];
+    answered = false;
+    let promptHTML = '';
+    let opts = [];
+
+    if(mode === 'pinyin'){
+      opts = buildPinyinOptions(item);
+      promptHTML = `<div class="qmain">${item.m}</div><div class="qsub">Chọn phiên âm đúng</div>`;
+    } else if(mode === 'hanzi'){
+      opts = buildHanziOptions(item);
+      promptHTML = `<div class="qmain">${item.p}</div><div class="qsub">${item.m}</div>`;
+    } else {
+      opts = buildHanziOptions(item);
+      promptHTML = `<div class="qsub">Bấm để nghe, rồi chọn đúng chữ Hán</div>
+        <button class="speak-btn" type="button" aria-label="Nghe phát âm">🔊</button>`;
+    }
+
+    container.innerHTML = `
+      <div class="quiz-progress">Câu ${qi+1} / ${order.length} · Điểm: ${score}</div>
+      <div class="quiz-prompt">${promptHTML}</div>
+      <div class="options"></div>
+      <div class="quiz-footer">
+        <div class="feedback"></div>
+        <button class="next-btn" type="button">Câu tiếp →</button>
+      </div>
+    `;
+
+    if(mode === 'listen'){
+      const btn = container.querySelector('.speak-btn');
+      const doSpeak = () => {
+        if(!('speechSynthesis' in window)){
+          container.querySelector('.feedback').textContent = 'Trình duyệt không hỗ trợ đọc tiếng Trung.';
+          return;
+        }
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(item.h);
+        u.lang = 'zh-CN'; u.rate = 0.8;
+        speechSynthesis.speak(u);
+      };
+      btn.addEventListener('click', doSpeak);
+      setTimeout(doSpeak, 300);
+    }
+
+    const optsEl = container.querySelector('.options');
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'opt'; b.type = 'button';
+      b.innerHTML = mode === 'pinyin'
+        ? `<span class="op">${o.p}</span>`
+        : `<span class="oh">${o.h}</span>`;
+      b.addEventListener('click', () => {
+        if(answered) return;
+        answered = true;
+        const fb = container.querySelector('.feedback');
+        if(o.correct){
+          b.classList.add('correct'); score++;
+          fb.textContent = '✓ Chính xác!'; fb.className = 'feedback ok';
+        } else {
+          b.classList.add('wrong');
+          fb.textContent = `✗ Sai — đáp án đúng là ${mode==='pinyin' ? item.p : item.h}`;
+          fb.className = 'feedback no';
+          [...optsEl.children].forEach(c => {
+            if(c.textContent.trim().includes(mode==='pinyin'?item.p:item.h)) c.classList.add('correct');
+          });
+        }
+        [...optsEl.children].forEach(c => c.disabled = true);
+        container.querySelector('.next-btn').classList.add('ready');
+      });
+      optsEl.appendChild(b);
+    });
+
+    container.querySelector('.next-btn').addEventListener('click', () => {
+      if(!answered) return;
+      qi++;
+      render();
+    });
+  }
+
+  render();
+}
+
+document.querySelectorAll('.quiz-box').forEach(box => initQuiz(box, box.dataset.mode));
+
+/* ---------- matching game (连一连) ---------- */
+const GROUPS = [
+  {chars:['打','算'], word:'打算', pinyin:'dǎsuàn', meaning:'dự định'},
+  {chars:['周','末'], word:'周末', pinyin:'zhōumò', meaning:'cuối tuần'},
+  {chars:['一','直'], word:'一直', pinyin:'yìzhí', meaning:'luôn luôn'},
+  {chars:['游','戏'], word:'游戏', pinyin:'yóuxì', meaning:'trò chơi'},
+  {chars:['复','习'], word:'复习', pinyin:'fùxí', meaning:'ôn tập'},
+  {chars:['着','急'], word:'着急', pinyin:'zháojí', meaning:'lo lắng, sốt ruột'},
+  {chars:['南','方'], word:'南方', pinyin:'nánfāng', meaning:'phương Nam'},
+  {chars:['带','东','西'], word:'带东西', pinyin:'dài dōngxi', meaning:'mang đồ'},
+  {chars:['面','包'], word:'面包', pinyin:'miànbāo', meaning:'bánh mì'},
+  {chars:['地','图'], word:'地图', pinyin:'dìtú', meaning:'bản đồ'},
+  {chars:['搬','家'], word:'搬家', pinyin:'bānjiā', meaning:'chuyển nhà'},
+];
+
+let matchTiles = [];
+let selected = [];
+let matchedGroups = 0;
+let matchedWords = [];
+
+function buildMatchTiles(){
+  const tiles = [];
+  GROUPS.forEach((g, gi) => {
+    g.chars.forEach((ch, ci) => {
+      tiles.push({ id: `${gi}-${ci}-${Math.random().toString(36).slice(2,7)}`, ch, gi, matched:false });
+    });
+  });
+  return shuffle(tiles);
+}
+
+function renderMatchGrid(){
+  const grid = document.getElementById('matchGrid');
+  grid.innerHTML = '';
+  matchTiles.forEach(t => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'match-tile' + (t.matched ? ' matched' : '') + (selected.includes(t.id) ? ' selected' : '');
+    b.textContent = t.ch;
+    b.dataset.id = t.id;
+    b.disabled = t.matched;
+    b.addEventListener('click', () => onTileClick(t.id));
+    grid.appendChild(b);
+  });
+}
+
+function updateMatchProgress(){
+  const el = document.getElementById('matchProgress');
+  el.textContent = matchedGroups === GROUPS.length
+    ? `🎉 Hoàn thành ${matchedGroups} / ${GROUPS.length} cụm!`
+    : `${matchedGroups} / ${GROUPS.length} cụm đã ghép đúng`;
+}
+
+function onTileClick(id){
+  const tile = matchTiles.find(t => t.id === id);
+  if(!tile || tile.matched) return;
+  if(selected.includes(id)){
+    selected = selected.filter(s => s !== id);
+    renderMatchGrid();
+    return;
+  }
+  selected.push(id);
+  renderMatchGrid();
+  checkSelection();
+}
+
+function checkSelection(){
+  const fb = document.getElementById('matchFeedback');
+  const selChars = selected.map(id => matchTiles.find(t => t.id === id).ch).sort();
+
+  const exactGi = GROUPS.findIndex((g, gi) => {
+    if(matchTiles.some(t => t.gi === gi && t.matched)) return false;
+    const gc = g.chars.slice().sort();
+    return gc.length === selChars.length && gc.every((c,i) => c === selChars[i]);
+  });
+
+  if(exactGi !== -1){
+    matchTiles.forEach(t => { if(selected.includes(t.id)) t.matched = true; });
+    selected = [];
+    matchedGroups++;
+    const g = GROUPS[exactGi];
+    fb.textContent = `✓ ${g.word} (${g.pinyin}) — ${g.meaning}`;
+    fb.className = 'feedback ok';
+    matchedWords.push(g);
+    renderMatchedList();
+    updateMatchProgress();
+    renderMatchGrid();
+    return;
+  }
+
+  const canExtend = selChars.length < 3 && GROUPS.some((g, gi) => {
+    if(matchTiles.some(t => t.gi === gi && t.matched)) return false;
+    if(g.chars.length <= selChars.length) return false;
+    const pool = g.chars.slice();
+    return selChars.every(c => {
+      const idx = pool.indexOf(c);
+      if(idx === -1) return false;
+      pool.splice(idx,1);
+      return true;
+    });
+  });
+  if(canExtend) return;
+
+  fb.textContent = '✗ Hai thẻ này không ghép được với nhau';
+  fb.className = 'feedback no';
+  const grid = document.getElementById('matchGrid');
+  selected.forEach(id => {
+    const el = grid.querySelector(`[data-id="${id}"]`);
+    if(el) el.classList.add('wrong');
+  });
+  setTimeout(() => { selected = []; renderMatchGrid(); }, 550);
+}
+
+function renderMatchedList(){
+  const el = document.getElementById('matchedList');
+  el.innerHTML = matchedWords.map(g =>
+    `<span class="matched-chip"><b>${g.word}</b> (${g.pinyin}) — ${g.meaning}</span>`
+  ).join('');
+}
+
+function initMatchGame(){
+  matchTiles = buildMatchTiles();
+  selected = [];
+  matchedGroups = 0;
+  matchedWords = [];
+  document.getElementById('matchFeedback').textContent = '';
+  document.getElementById('matchFeedback').className = 'feedback';
+  renderMatchedList();
+  updateMatchProgress();
+  renderMatchGrid();
+}
+
+document.getElementById('shuffleBtn').addEventListener('click', initMatchGame);
+initMatchGame();
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- sentence ordering task (写句子) ---------- */
+const SENTENCE_TASKS = [
+  {chunks:['我','已经','复习','好','语法','了'], answer:'我已经复习好语法了。', vi:'Tôi đã ôn tập xong ngữ pháp rồi.'},
+  {chunks:['冰箱里','一个','面包','也','没有'], answer:'冰箱里一个面包也没有。', vi:'Trong tủ lạnh một cái bánh mì cũng không có.'},
+  {chunks:['你周末没事','那','我们','一起去','南方旅行吧'], answer:'你周末没事，那我们一起去南方旅行吧。', vi:'Cuối tuần bạn không có việc gì à, vậy thì chúng ta cùng đi miền Nam du lịch nhé.'},
+  {chunks:['他','还没','收拾','好','行李','呢'], answer:'他还没收拾好行李呢。', vi:'Anh ấy vẫn chưa thu dọn xong hành lý đâu.'},
+  {chunks:['弟弟','一直','玩游戏','一点儿','也不','着急复习'], answer:'弟弟一直玩游戏，一点儿也不着急复习。', vi:'Em trai cứ chơi game suốt, chẳng lo lắng chuyện ôn tập chút nào.'},
+];
+
+function normalizeCn(s){
+  return s.replace(/[，。！？、\s]/g, '');
+}
+
+function initSentenceTask(container){
+  let order = shuffle(SENTENCE_TASKS.map((_, i) => i));
+  let qi = 0;
+  let score = 0;
+  let checked = false;
+
+  function render(){
+    if(qi >= order.length){
+      container.innerHTML = `
+        <div class="quiz-done">
+          <div>Hoàn thành!</div>
+          <div class="score">${score} / ${order.length}</div>
+          <button class="retry-btn" type="button">Làm lại</button>
+        </div>`;
+      container.querySelector('.retry-btn').addEventListener('click', () => {
+        order = shuffle(SENTENCE_TASKS.map((_, i) => i));
+        qi = 0; score = 0;
+        render();
+      });
+      return;
+    }
+
+    const item = SENTENCE_TASKS[order[qi]];
+    checked = false;
+    const shuffledChunks = shuffle(item.chunks);
+
+    container.innerHTML = `
+      <div class="quiz-progress">Câu ${qi+1} / ${order.length} · Điểm: ${score}</div>
+      <div class="chunk-row">${shuffledChunks.map(c => `<span class="chunk-chip">${c}</span>`).join('')}</div>
+      <div class="type-vi">${item.vi}</div>
+      <input type="text" class="type-input" placeholder="Gõ lại câu theo đúng thứ tự..." autocomplete="off">
+      <div class="type-actions">
+        <button class="check-btn" type="button">Kiểm tra</button>
+        <button class="reveal-btn" type="button">Xem đáp án</button>
+        <button class="next-btn" type="button">Câu tiếp →</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="type-answer">${item.answer}</div>
+    `;
+
+    const input = container.querySelector('.type-input');
+    const fb = container.querySelector('.feedback');
+    const answerEl = container.querySelector('.type-answer');
+    const nextBtn = container.querySelector('.next-btn');
+
+    function doCheck(){
+      if(checked) return;
+      const ok = normalizeCn(input.value) === normalizeCn(item.answer);
+      checked = true;
+      if(ok){
+        score++;
+        fb.textContent = '✓ Chính xác!';
+        fb.className = 'feedback ok';
+      } else {
+        fb.textContent = '✗ Chưa đúng — xem đáp án bên dưới nhé.';
+        fb.className = 'feedback no';
+        answerEl.classList.add('show');
+      }
+      nextBtn.classList.add('ready');
+    }
+
+    container.querySelector('.check-btn').addEventListener('click', doCheck);
+    input.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); doCheck(); } });
+    container.querySelector('.reveal-btn').addEventListener('click', () => {
+      answerEl.classList.add('show');
+    });
+    nextBtn.addEventListener('click', () => {
+      if(!checked) return;
+      qi++;
+      render();
+    });
+  }
+
+  render();
+}
+
+initSentenceTask(document.getElementById('sentenceTaskBox'));
+</script>
+</body>
+</html>
