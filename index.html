@@ -360,11 +360,16 @@
   <div class="eyebrow">我的汉字<span class="rule"></span>日课</div>
 
   <div class="lesson-switch" id="lessonSwitch">
-    <button class="lesson-btn active" data-lesson="b2">Bài số 2</button>
+    <button class="lesson-btn active" data-lesson="b1">Bài số 1</button>
+    <button class="lesson-btn" data-lesson="b2">Bài số 2</button>
     <button class="lesson-btn" data-lesson="b3">Bài số 3</button>
+    <button class="lesson-btn" data-lesson="b4">Bài số 4</button>
+    <button class="lesson-btn" data-lesson="b5">Bài số 5</button>
+    <button class="lesson-btn" data-lesson="b6">Bài số 6</button>
+    <button class="lesson-btn" data-lesson="b7">Bài số 7</button>
   </div>
 
-  <h1 id="lessonTitle">HSK2 bài số 2 <span>- đã thuộc từ vựng chưa?</span></h1>
+  <h1 id="lessonTitle">HSK2 bài số 1 <span>- đã thuộc từ vựng chưa?</span></h1>
   <p class="sub" id="lessonSub"></p>
 
   <div class="progress-row">
@@ -564,9 +569,484 @@ const ICONS = {
     <circle cx="50" cy="50" r="30"/>
     <path d="M36 50 l10 10 l18 -22" stroke="${SEAL}" stroke-width="6"/>
   `, INK),
+  travel: svg(`
+    <rect x="26" y="34" width="48" height="42" rx="4"/>
+    <rect x="40" y="20" width="20" height="14" rx="3"/>
+    <line x1="26" y1="50" x2="74" y2="50"/>
+    <circle cx="36" cy="82" r="4" fill="${INK}" stroke="none"/>
+    <circle cx="64" cy="82" r="4" fill="${INK}" stroke="none"/>
+  `, INK),
+  feel: svg(`
+    <circle cx="36" cy="66" r="16"/>
+    <path d="M54 38 a15 13 0 1 1 30 0 a15 13 0 1 1 -30 0"/>
+    <circle cx="60" cy="22" r="3" fill="${INK}" stroke="none"/>
+    <circle cx="68" cy="16" r="4.5" fill="${INK}" stroke="none"/>
+    <path d="M62 34 q4 -6 8 0 q4 -6 8 0 q0 6 -8 10 q-8 -4 -8 -10" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  most: svg(`
+    <circle cx="50" cy="38" r="20"/>
+    <path d="M50 24 l4.5 11 l12 1.5 l-9 8 l2.7 12 l-10.2 -6.5 l-10.2 6.5 l2.7 -12 l-9 -8 l12 -1.5 z" fill="${SEAL}" stroke="${SEAL}"/>
+    <path d="M40 56 l-8 22 l10 -6 l6 8 z"/>
+    <path d="M60 56 l8 22 l-10 -6 l-6 8 z"/>
+  `, INK),
+  why: svg(`
+    <circle cx="50" cy="42" r="24"/>
+    <path d="M41 34 q0 -11 10 -11 q11 0 11 10 q0 9 -9 11 q-2 1 -2 7" stroke-width="5"/>
+    <circle cx="50" cy="64" r="2.5" fill="${INK}" stroke="none"/>
+  `, INK),
+  also: svg(`
+    <rect x="16" y="28" width="32" height="32" rx="5"/>
+    <rect x="46" y="42" width="32" height="32" rx="5" stroke="${BLUE}"/>
+    <line x1="60" y1="16" x2="60" y2="26" stroke-width="3.5" opacity=".6"/>
+    <line x1="55" y1="21" x2="65" y2="21" stroke-width="3.5" opacity=".6"/>
+  `, INK),
+  sport: svg(`
+    <rect x="10" y="38" width="10" height="24" rx="2"/>
+    <rect x="80" y="38" width="10" height="24" rx="2"/>
+    <rect x="18" y="42" width="10" height="16" rx="2"/>
+    <rect x="72" y="42" width="10" height="16" rx="2"/>
+    <line x1="28" y1="50" x2="72" y2="50" stroke-width="6"/>
+  `, INK),
+  soccer: svg(`
+    <circle cx="68" cy="58" r="14"/>
+    <path d="M68 48 l6 6 l-3 8 l-6 0 l-3 -8 z" fill="${INK}" stroke="none"/>
+    <path d="M16 80 q12 -6 24 -8 l12 -22 q4 -7 11 -5" stroke-width="5"/>
+  `, INK),
+  together: svg(`
+    <circle cx="34" cy="30" r="10"/>
+    <path d="M18 68 q0 -20 16 -20 q16 0 16 20"/>
+    <circle cx="66" cy="30" r="10"/>
+    <path d="M50 68 q0 -20 16 -20 q16 0 16 20"/>
+  `, INK),
+  want: svg(`
+    <rect x="28" y="46" width="32" height="34" rx="11"/>
+    <line x1="34" y1="46" x2="34" y2="24"/>
+    <line x1="43" y1="46" x2="43" y2="18"/>
+    <line x1="52" y1="46" x2="52" y2="22"/>
+    <line x1="60" y1="50" x2="67" y2="32"/>
+    <path d="M74 20 l3 8 l8 1 l-6 6 l1.5 8 l-6.5 -4 l-6.5 4 l1.5 -8 l-6 -6 l8 -1 z" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  new: svg(`
+    <path d="M50 14 l7 24 l24 7 l-24 7 l-7 24 l-7 -24 l-24 -7 l24 -7 z"/>
+    <circle cx="80" cy="20" r="4" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  it: svg(`
+    <circle cx="50" cy="60" r="17"/>
+    <circle cx="28" cy="38" r="8"/>
+    <circle cx="50" cy="26" r="8"/>
+    <circle cx="72" cy="38" r="8"/>
+  `, INK),
+  eye: svg(`
+    <path d="M12 50 q38 -32 76 0 q-38 32 -76 0 z"/>
+    <circle cx="50" cy="50" r="13"/>
+    <circle cx="50" cy="50" r="4.5" fill="${INK}" stroke="none"/>
+  `, INK),
+  flower: svg(`
+    <circle cx="50" cy="50" r="9" fill="${SEAL}" stroke="none"/>
+    <circle cx="50" cy="28" r="12"/>
+    <circle cx="50" cy="72" r="12"/>
+    <circle cx="28" cy="50" r="12"/>
+    <circle cx="72" cy="50" r="12"/>
+    <line x1="50" y1="80" x2="50" y2="94" stroke="${BLUE}"/>
+  `, INK),
+  birthday: svg(`
+    <rect x="26" y="54" width="48" height="26" rx="4"/>
+    <path d="M26 62 q6 -6 12 0 q6 -6 12 0 q6 -6 12 0 q6 -6 12 0"/>
+    <line x1="50" y1="54" x2="50" y2="38"/>
+    <path d="M46 30 q4 -8 8 0 q0 6 -4 8 q-4 -2 -4 -8" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  happy: svg(`
+    <circle cx="50" cy="50" r="30"/>
+    <circle cx="40" cy="44" r="3" fill="${INK}" stroke="none"/>
+    <circle cx="60" cy="44" r="3" fill="${INK}" stroke="none"/>
+    <path d="M36 58 q14 14 28 0"/>
+  `, INK),
+  receive: svg(`
+    <circle cx="62" cy="28" r="9" fill="${SEAL}" stroke="none"/>
+    <path d="M18 78 q0 -16 14 -20 q10 -3 20 5"/>
+    <path d="M50 62 l10 -22" stroke-width="3.5" opacity=".6"/>
+  `, INK),
+  evening: svg(`
+    <path d="M62 20 a28 28 0 1 0 18 46 a22 22 0 0 1 -18 -46 z"/>
+    <path d="M78 60 l3 7 l7 1 l-5 5 l1 7 l-6 -3.5 l-6 3.5 l1 -7 l-5 -5 l7 -1 z" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  ask: svg(`
+    <path d="M18 26 h56 a6 6 0 0 1 6 6 v28 a6 6 0 0 1 -6 6 h-30 l-14 14 v-14 h-12 a6 6 0 0 1 -6 -6 v-28 a6 6 0 0 1 6 -6 z"/>
+    <path d="M38 38 q0 -8 8 -8 q8 0 8 7 q0 6 -6 8 q-2 1 -2 5" stroke-width="4"/>
+    <circle cx="46" cy="58" r="2" fill="${INK}" stroke="none"/>
+  `, INK),
+  extremely: svg(`
+    <line x1="50" y1="26" x2="50" y2="58" stroke-width="7"/>
+    <circle cx="50" cy="72" r="4" fill="${INK}" stroke="none"/>
+    <line x1="20" y1="30" x2="28" y2="38" stroke-width="3" opacity=".6"/>
+    <line x1="80" y1="30" x2="72" y2="38" stroke-width="3" opacity=".6"/>
+    <line x1="50" y1="12" x2="50" y2="20" stroke-width="3" opacity=".6"/>
+  `, INK),
+  start: svg(`
+    <path d="M32 18 v64" stroke-width="4"/>
+    <path d="M32 20 l40 18 l-40 18 z" fill="${SEAL}" stroke="${SEAL}"/>
+  `, INK),
+  already: svg(`
+    <circle cx="46" cy="50" r="28"/>
+    <path d="M34 50 l9 9 l17 -20" stroke="${SEAL}" stroke-width="6"/>
+    <line x1="74" y1="30" x2="82" y2="22" stroke-width="3" opacity=".5"/>
+    <line x1="78" y1="34" x2="88" y2="30" stroke-width="3" opacity=".5"/>
+  `, INK),
+  long: svg(`
+    <rect x="14" y="42" width="72" height="16" rx="3"/>
+    <line x1="26" y1="42" x2="26" y2="52"/>
+    <line x1="38" y1="42" x2="38" y2="52"/>
+    <line x1="50" y1="42" x2="50" y2="58"/>
+    <line x1="62" y1="42" x2="62" y2="52"/>
+    <line x1="74" y1="42" x2="74" y2="52"/>
+  `, INK),
+  two: svg(`
+    <circle cx="36" cy="50" r="14"/>
+    <circle cx="64" cy="50" r="14" stroke="${BLUE}"/>
+  `, INK),
+  help: svg(`
+    <circle cx="34" cy="30" r="9"/>
+    <path d="M20 66 q0 -18 14 -18 q14 0 14 18"/>
+    <circle cx="68" cy="46" r="9" stroke="${BLUE}"/>
+    <path d="M54 82 q0 -18 14 -18 q14 0 14 18" stroke="${BLUE}"/>
+    <path d="M44 50 l10 -8" stroke-width="3.5" opacity=".6"/>
+  `, INK),
+  introduce: svg(`
+    <circle cx="30" cy="34" r="9"/>
+    <path d="M16 70 q0 -18 14 -18 q14 0 14 18"/>
+    <circle cx="70" cy="34" r="9" stroke="${BLUE}"/>
+    <path d="M56 70 q0 -18 14 -18 q14 0 14 18" stroke="${BLUE}"/>
+    <path d="M44 46 h12" stroke-width="3.5"/>
+    <path d="M52 42 l4 4 l-4 4" stroke-width="3.5"/>
+  `, INK),
+  outside: svg(`
+    <path d="M18 48 L50 22 L82 48"/>
+    <path d="M26 46 v34 h48 v-34"/>
+    <rect x="42" y="60" width="16" height="20"/>
+    <line x1="68" y1="40" x2="88" y2="30" stroke-width="4"/>
+    <path d="M82 24 l6 6 l-6 6" stroke-width="4"/>
+  `, INK),
+  prepare: svg(`
+    <rect x="26" y="20" width="48" height="60" rx="5"/>
+    <rect x="38" y="14" width="24" height="12" rx="3"/>
+    <path d="M36 40 l6 6 l10 -12" stroke="${SEAL}" stroke-width="4"/>
+    <line x1="36" y1="58" x2="64" y2="58"/>
+    <line x1="36" y1="68" x2="64" y2="68"/>
+  `, INK),
+  fish: svg(`
+    <path d="M20 50 q20 -22 50 -14 q10 3 14 14 q-4 11 -14 14 q-30 8 -50 -14 z"/>
+    <path d="M84 50 l10 -8 v16 z" fill="${INK}" stroke="none"/>
+    <circle cx="34" cy="46" r="2.5" fill="${INK}" stroke="none"/>
+  `, INK),
+  shirt: svg(`
+    <path d="M32 26 l14 -8 q4 6 8 6 q4 0 8 -6 l14 8 l-6 14 l-8 -4 v42 h-32 v-42 l-8 4 z"/>
+  `, INK),
+  soso: svg(`
+    <path d="M20 68 a30 30 0 0 1 60 0"/>
+    <line x1="50" y1="68" x2="66" y2="46" stroke-width="4"/>
+    <circle cx="50" cy="68" r="4" fill="${INK}" stroke="none"/>
+  `, INK),
+  thumbsup: svg(`
+    <path d="M28 46 h10 v34 h-10 z"/>
+    <path d="M38 46 l4 -20 q2 -6 8 -4 q4 2 3 8 l-3 12 h20 q6 0 5 8 l-4 22 q-2 8 -10 8 h-23 z"/>
+  `, INK),
+  exam: svg(`
+    <rect x="20" y="18" width="46" height="60" rx="4"/>
+    <line x1="28" y1="34" x2="56" y2="34"/>
+    <line x1="28" y1="44" x2="56" y2="44"/>
+    <line x1="28" y1="54" x2="46" y2="54"/>
+    <path d="M58 64 l18 -18 l8 8 l-18 18 l-10 2 z" fill="${SEAL}" stroke="${SEAL}"/>
+  `, INK),
+  coffee: svg(`
+    <path d="M22 40 h40 v24 a20 20 0 0 1 -40 0 z"/>
+    <path d="M62 44 q14 -4 14 10 q0 12 -14 10"/>
+    <path d="M30 30 q2 -8 -2 -12 M40 30 q2 -8 -2 -12 M50 30 q2 -8 -2 -12" stroke-width="3" opacity=".6"/>
+  `, INK),
+  after: svg(`
+    <circle cx="42" cy="50" r="26"/>
+    <line x1="42" y1="50" x2="42" y2="34" stroke-width="4"/>
+    <line x1="42" y1="50" x2="54" y2="56" stroke-width="4"/>
+    <path d="M72 50 l14 0" stroke-width="4"/>
+    <path d="M80 44 l6 6 l-6 6" stroke-width="4"/>
+  `, INK),
+  doorOutside: svg(`
+    <rect x="30" y="18" width="34" height="64" rx="3"/>
+    <circle cx="56" cy="50" r="2.5" fill="${INK}" stroke="none"/>
+    <line x1="70" y1="50" x2="90" y2="40" stroke-width="4"/>
+    <path d="M84 34 l6 6 l-6 6" stroke-width="4"/>
+  `, INK),
+  bicycle: svg(`
+    <circle cx="28" cy="66" r="16"/>
+    <circle cx="72" cy="66" r="16"/>
+    <path d="M28 66 l18 -30 h20 M46 36 l14 30 M60 36 l12 30" stroke-width="4"/>
+    <path d="M40 36 h14" stroke-width="4"/>
+  `, INK),
+  lamb: svg(`
+    <path d="M40 20 q20 -6 24 16 q2 14 -8 22 l-18 26 q-6 8 -14 2 q-6 -6 0 -14 l18 -20 q-10 -8 -12 -20 q-2 -10 10 -12 z" fill="${SEAL}" stroke="${INK}"/>
+    <line x1="30" y1="66" x2="20" y2="80" stroke-width="4"/>
+  `, INK),
+  noodles: svg(`
+    <path d="M20 46 h60 q0 26 -30 26 q-30 0 -30 -26 z"/>
+    <ellipse cx="50" cy="46" rx="30" ry="8"/>
+    <path d="M32 40 q4 -8 0 -14 M46 40 q4 -8 0 -14 M60 40 q4 -8 0 -14" stroke-width="3"/>
+    <line x1="70" y1="30" x2="80" y2="14" stroke-width="3.5"/>
+  `, INK),
+  basketball: svg(`
+    <circle cx="50" cy="50" r="30"/>
+    <line x1="20" y1="50" x2="80" y2="50"/>
+    <path d="M50 20 q-14 14 0 30 q14 16 0 30"/>
+    <path d="M24 32 q14 8 14 18 M76 32 q-14 8 -14 18" opacity=".7"/>
+  `, INK),
+  because: svg(`
+    <circle cx="60" cy="50" r="22"/>
+    <line x1="14" y1="50" x2="34" y2="50" stroke-width="4"/>
+    <path d="M28 42 l-8 8 l8 8" stroke-width="4"/>
+  `, INK),
+  so: svg(`
+    <circle cx="40" cy="50" r="22"/>
+    <line x1="66" y1="50" x2="86" y2="50" stroke-width="4"/>
+    <path d="M78 42 l8 8 l-8 8" stroke-width="4"/>
+  `, INK),
+  swim: svg(`
+    <path d="M14 62 q8 -8 16 0 q8 8 16 0 q8 -8 16 0 q8 8 16 0 q8 -8 16 0" stroke-width="4"/>
+    <circle cx="38" cy="30" r="8"/>
+    <path d="M28 40 q10 6 24 0 q6 8 16 6" stroke-width="4"/>
+  `, INK),
+  often: svg(`
+    <path d="M30 30 a24 24 0 1 1 -8 40"/>
+    <path d="M18 62 l4 12 l12 -4" stroke-width="4"/>
+  `, INK),
+  kilogram: svg(`
+    <line x1="50" y1="20" x2="50" y2="34" stroke-width="4"/>
+    <line x1="22" y1="34" x2="78" y2="34" stroke-width="4"/>
+    <path d="M22 34 l-10 26 h20 z"/>
+    <path d="M78 34 l-10 26 h20 z"/>
+    <rect x="38" y="60" width="24" height="20" rx="3"/>
+  `, INK),
+  sister: svg(`
+    <circle cx="50" cy="34" r="14"/>
+    <path d="M30 82 q0 -26 20 -26 q20 0 20 26"/>
+    <path d="M40 22 l-8 -6 l4 -6 l8 6 z" fill="${SEAL}" stroke="none"/>
+  `, INK),
+  classroom: svg(`
+    <rect x="16" y="20" width="68" height="42" rx="3"/>
+    <line x1="28" y1="34" x2="60" y2="34" stroke-width="3"/>
+    <line x1="28" y1="44" x2="50" y2="44" stroke-width="3"/>
+    <path d="M20 62 l6 18 M80 62 l-6 18" stroke-width="4"/>
+  `, INK),
+  airport: svg(`
+    <path d="M20 56 l50 -6 l14 -14 q4 -4 8 0 q4 4 0 8 l-14 14 l-6 30 l-8 2 l-2 -26 l-20 4 l-6 10 l-8 0 l2 -12 l-14 -4 z"/>
+  `, INK),
+  road: svg(`
+    <path d="M32 86 L46 14 h8 l14 72 z"/>
+    <line x1="50" y1="20" x2="50" y2="80" stroke-dasharray="8 8" stroke="${SEAL}"/>
+  `, INK),
+  distance: svg(`
+    <circle cx="22" cy="50" r="8" fill="${INK}" stroke="none"/>
+    <circle cx="78" cy="50" r="8" fill="${BLUE}" stroke="none"/>
+    <line x1="34" y1="50" x2="66" y2="50" stroke-dasharray="6 6"/>
+  `, INK),
+  company: svg(`
+    <rect x="30" y="16" width="40" height="64" rx="2"/>
+    <line x1="38" y1="28" x2="46" y2="28"/>
+    <line x1="54" y1="28" x2="62" y2="28"/>
+    <line x1="38" y1="40" x2="46" y2="40"/>
+    <line x1="54" y1="40" x2="62" y2="40"/>
+    <line x1="38" y1="52" x2="46" y2="52"/>
+    <line x1="54" y1="52" x2="62" y2="52"/>
+    <rect x="44" y="64" width="12" height="16"/>
+  `, INK),
+  far: svg(`
+    <circle cx="18" cy="70" r="7" fill="${INK}" stroke="none"/>
+    <path d="M28 70 h50" stroke-dasharray="4 6"/>
+    <path d="M74 60 l10 10 l-10 10" stroke-width="4"/>
+  `, INK),
+  bus: svg(`
+    <rect x="14" y="30" width="72" height="38" rx="6"/>
+    <line x1="14" y1="48" x2="86" y2="48"/>
+    <line x1="26" y1="34" x2="26" y2="46"/>
+    <line x1="42" y1="34" x2="42" y2="46"/>
+    <line x1="58" y1="34" x2="58" y2="46"/>
+    <line x1="74" y1="34" x2="74" y2="46"/>
+    <circle cx="28" cy="72" r="7"/>
+    <circle cx="72" cy="72" r="7"/>
+  `, INK),
+  hour: svg(`
+    <path d="M30 18 h40 v10 l-16 22 l16 22 v10 h-40 v-10 l16 -22 l-16 -22 z"/>
+    <line x1="30" y1="18" x2="70" y2="18" stroke-width="5"/>
+    <line x1="30" y1="82" x2="70" y2="82" stroke-width="5"/>
+  `, INK),
+  slow: svg(`
+    <ellipse cx="50" cy="50" rx="28" ry="18"/>
+    <circle cx="80" cy="46" r="10"/>
+    <path d="M30 62 l-8 10 M40 66 l-4 12 M60 66 l4 12 M70 62 l8 10" stroke-width="4"/>
+  `, INK),
+  fast: svg(`
+    <path d="M56 14 l-30 40 h18 l-10 32 l36 -44 h-20 z" fill="${SEAL}" stroke="${SEAL}"/>
+  `, INK),
+  celebrate: svg(`
+    <rect x="26" y="54" width="48" height="26" rx="4"/>
+    <path d="M26 62 q6 -6 12 0 q6 -6 12 0 q6 -6 12 0 q6 -6 12 0"/>
+    <line x1="50" y1="54" x2="50" y2="38"/>
+    <path d="M46 30 q4 -8 8 0 q0 6 -4 8 q-4 -2 -4 -8" fill="${SEAL}" stroke="none"/>
+    <path d="M20 48 q30 -10 60 0" stroke-dasharray="3 5" opacity=".5"/>
+  `, INK),
+  walk: svg(`
+    <circle cx="50" cy="22" r="9"/>
+    <path d="M50 32 v20 l-16 24 M50 52 l18 22 M50 40 l-14 10 M50 40 l16 6" stroke-width="5"/>
+  `, INK),
+  arrive: svg(`
+    <path d="M50 90 v-70" stroke-width="4"/>
+    <path d="M50 20 l30 12 l-30 12 z" fill="${SEAL}" stroke="${SEAL}"/>
+  `, INK),
 };
 
 const LESSONS = {
+  b7: {
+    titleMain: 'HSK2 bài số 7',
+    titleAccent: '- đã thuộc từ vựng chưa?',
+    sub: '13 từ vựng thường dùng — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.',
+    words: [
+      { hanzi:'教室', pinyin:'jiào shì', nghia:'phòng học, lớp học', icon:'classroom' },
+      { hanzi:'机场', pinyin:'jī chǎng', nghia:'sân bay', icon:'airport' },
+      { hanzi:'路', pinyin:'lù', nghia:'đường, con đường', icon:'road' },
+      { hanzi:'离', pinyin:'lí', nghia:'cách (khoảng cách)', icon:'distance' },
+      { hanzi:'公司', pinyin:'gōng sī', nghia:'công ty', icon:'company' },
+      { hanzi:'远', pinyin:'yuǎn', nghia:'xa', icon:'far' },
+      { hanzi:'公共汽车', pinyin:'gōng gòng qì chē', nghia:'xe buýt', icon:'bus' },
+      { hanzi:'小时', pinyin:'xiǎo shí', nghia:'giờ (đơn vị thời gian)', icon:'hour' },
+      { hanzi:'慢', pinyin:'màn', nghia:'chậm', icon:'slow' },
+      { hanzi:'快', pinyin:'kuài', nghia:'nhanh', icon:'fast' },
+      { hanzi:'过生日', pinyin:'guò shēng rì', nghia:'mừng sinh nhật', icon:'celebrate' },
+      { hanzi:'走', pinyin:'zǒu', nghia:'đi, đi bộ', icon:'walk' },
+      { hanzi:'到', pinyin:'dào', nghia:'đến', icon:'arrive' },
+    ],
+    hanziItems: [
+      { pinyin:'jiào', correct:'教', options:['教','孝'] },
+      { pinyin:'shì', correct:'室', options:['室','至'] },
+      { pinyin:'jī', correct:'机', options:['机','几'] },
+      { pinyin:'lù', correct:'路', options:['路','踢'] },
+      { pinyin:'lí', correct:'离', options:['离','禽'] },
+      { pinyin:'sī', correct:'司', options:['司','同'] },
+      { pinyin:'yuǎn', correct:'远', options:['远','元'] },
+      { pinyin:'màn', correct:'慢', options:['慢','馒'] },
+      { pinyin:'kuài', correct:'快', options:['快','块'], note:'nhanh' },
+      { pinyin:'zǒu', correct:'走', options:['走','起'] },
+    ]
+  },
+  b6: {
+    titleMain: 'HSK2 bài số 6',
+    titleAccent: '- đã thuộc từ vựng chưa?',
+    sub: '11 từ vựng thường dùng — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.',
+    words: [
+      { hanzi:'门外', pinyin:'mén wài', nghia:'ngoài cửa', icon:'doorOutside' },
+      { hanzi:'自行车', pinyin:'zì xíng chē', nghia:'xe đạp', icon:'bicycle' },
+      { hanzi:'羊肉', pinyin:'yáng ròu', nghia:'thịt cừu/thịt dê', icon:'lamb' },
+      { hanzi:'面条', pinyin:'miàn tiáo', nghia:'mì sợi', icon:'noodles' },
+      { hanzi:'打篮球', pinyin:'dǎ lán qiú', nghia:'chơi bóng rổ', icon:'basketball' },
+      { hanzi:'因为', pinyin:'yīn wèi', nghia:'bởi vì', icon:'because' },
+      { hanzi:'所以', pinyin:'suǒ yǐ', nghia:'cho nên', icon:'so' },
+      { hanzi:'游泳', pinyin:'yóu yǒng', nghia:'bơi lội', icon:'swim' },
+      { hanzi:'经常', pinyin:'jīng cháng', nghia:'thường xuyên', icon:'often' },
+      { hanzi:'公斤', pinyin:'gōng jīn', nghia:'kilôgam', icon:'kilogram' },
+      { hanzi:'姐姐', pinyin:'jiě jie', nghia:'chị gái', icon:'sister' },
+    ],
+    hanziItems: [
+      { pinyin:'mén', correct:'门', options:['门','们'] },
+      { pinyin:'zì', correct:'自', options:['自','白'] },
+      { pinyin:'tiáo', correct:'条', options:['条','件'] },
+      { pinyin:'lán', correct:'篮', options:['篮','蓝'] },
+      { pinyin:'yǒng', correct:'泳', options:['泳','永'] },
+      { pinyin:'jīn', correct:'斤', options:['斤','近'] },
+    ]
+  },
+  b5: {
+    titleMain: 'HSK2 bài số 5',
+    titleAccent: '- đã thuộc từ vựng chưa?',
+    sub: '9 từ vựng thường dùng — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.',
+    words: [
+      { hanzi:'外面', pinyin:'wài miàn', nghia:'bên ngoài', icon:'outside' },
+      { hanzi:'准备', pinyin:'zhǔn bèi', nghia:'chuẩn bị', icon:'prepare' },
+      { hanzi:'鱼', pinyin:'yú', nghia:'cá', icon:'fish' },
+      { hanzi:'件', pinyin:'jiàn', nghia:'(lượng từ: cái, chiếc, việc)', icon:'shirt' },
+      { hanzi:'还可以', pinyin:'hái kě yǐ', nghia:'cũng được, tạm ổn', icon:'soso' },
+      { hanzi:'不错', pinyin:'bú cuò', nghia:'không tệ, khá tốt', icon:'thumbsup' },
+      { hanzi:'考试', pinyin:'kǎo shì', nghia:'thi, kỳ thi', icon:'exam' },
+      { hanzi:'咖啡', pinyin:'kā fēi', nghia:'cà phê', icon:'coffee' },
+      { hanzi:'以后', pinyin:'yǐ hòu', nghia:'sau này, về sau', icon:'after' },
+    ],
+    hanziItems: [
+      { pinyin:'wài', correct:'外', options:['外','处'] },
+      { pinyin:'zhǔn', correct:'准', options:['准','淮'] },
+      { pinyin:'yú', correct:'鱼', options:['鱼','备'] },
+      { pinyin:'jiàn', correct:'件', options:['件','牛'] },
+      { pinyin:'kǎo', correct:'考', options:['考','老'] },
+      { pinyin:'cuò', correct:'错', options:['错','借'] },
+      { pinyin:'kā', correct:'咖', options:['咖','加'] },
+      { pinyin:'fēi', correct:'啡', options:['啡','匪'] },
+    ]
+  },
+  b4: {
+    titleMain: 'HSK2 bài số 4',
+    titleAccent: '- đã thuộc từ vựng chưa?',
+    sub: '12 từ vựng thường dùng — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.',
+    words: [
+      { hanzi:'生日', pinyin:'shēng rì', nghia:'sinh nhật', icon:'birthday' },
+      { hanzi:'快乐', pinyin:'kuài lè', nghia:'vui vẻ, hạnh phúc', icon:'happy' },
+      { hanzi:'接', pinyin:'jiē', nghia:'đón, tiếp nhận', icon:'receive' },
+      { hanzi:'晚上', pinyin:'wǎn shang', nghia:'buổi tối', icon:'evening' },
+      { hanzi:'问', pinyin:'wèn', nghia:'hỏi', icon:'ask' },
+      { hanzi:'非常', pinyin:'fēi cháng', nghia:'rất, vô cùng', icon:'extremely' },
+      { hanzi:'开始', pinyin:'kāi shǐ', nghia:'bắt đầu', icon:'start' },
+      { hanzi:'已经', pinyin:'yǐ jīng', nghia:'đã (rồi)', icon:'already' },
+      { hanzi:'长', pinyin:'cháng', nghia:'dài', icon:'long' },
+      { hanzi:'两', pinyin:'liǎng', nghia:'hai', icon:'two' },
+      { hanzi:'帮', pinyin:'bāng', nghia:'giúp', icon:'help' },
+      { hanzi:'介绍', pinyin:'jiè shào', nghia:'giới thiệu', icon:'introduce' },
+    ],
+    hanziItems: [
+      { pinyin:'rì', correct:'日', options:['日','目'] },
+      { pinyin:'kuài', correct:'快', options:['快','决'] },
+      { pinyin:'jiē', correct:'接', options:['接','妾'] },
+      { pinyin:'wǎn', correct:'晚', options:['晚','兔'] },
+      { pinyin:'wèn', correct:'问', options:['问','间'] },
+      { pinyin:'fēi', correct:'非', options:['非','北'] },
+      { pinyin:'liǎng', correct:'两', options:['两','俩'] },
+      { pinyin:'shào', correct:'绍', options:['绍','招'] },
+    ]
+  },
+  b1: {
+    titleMain: 'HSK2 bài số 1',
+    titleAccent: '- đã thuộc từ vựng chưa?',
+    sub: '13 từ vựng thường dùng — chạm vào từng thẻ để lật, xem chữ Hán và hình minh hoạ. Bấm dấu tròn ở góc để đánh dấu đã thuộc.',
+    words: [
+      { hanzi:'旅游', pinyin:'lǚ yóu', nghia:'du lịch', icon:'travel' },
+      { hanzi:'觉得', pinyin:'jué de', nghia:'cảm thấy, cho là', icon:'feel' },
+      { hanzi:'最', pinyin:'zuì', nghia:'nhất', icon:'most' },
+      { hanzi:'为什么', pinyin:'wèi shén me', nghia:'tại sao', icon:'why' },
+      { hanzi:'也', pinyin:'yě', nghia:'cũng', icon:'also' },
+      { hanzi:'运动', pinyin:'yùn dòng', nghia:'vận động, thể thao', icon:'sport' },
+      { hanzi:'踢足球', pinyin:'tī zú qiú', nghia:'đá bóng', icon:'soccer' },
+      { hanzi:'一起', pinyin:'yì qǐ', nghia:'cùng nhau', icon:'together' },
+      { hanzi:'要', pinyin:'yào', nghia:'muốn, cần, sẽ', icon:'want' },
+      { hanzi:'新', pinyin:'xīn', nghia:'mới', icon:'new' },
+      { hanzi:'它', pinyin:'tā', nghia:'nó (đồ vật/con vật)', icon:'it' },
+      { hanzi:'眼睛', pinyin:'yǎn jīng', nghia:'mắt', icon:'eye' },
+      { hanzi:'花', pinyin:'huā', nghia:'hoa', icon:'flower' },
+    ],
+    hanziItems: [
+      { pinyin:'lǚ', correct:'旅', options:['旅','派'] },
+      { pinyin:'jué', correct:'觉', options:['觉','学'] },
+      { pinyin:'yě', correct:'也', options:['也','他'] },
+      { pinyin:'tī', correct:'踢', options:['踢','易'] },
+      { pinyin:'qǐ', correct:'起', options:['起','走'] },
+      { pinyin:'yào', correct:'要', options:['要','耍'] },
+      { pinyin:'tā', correct:'它', options:['它','蛇'] },
+      { pinyin:'jīng', correct:'睛', options:['睛','晴'] },
+      { pinyin:'huā', correct:'花', options:['花','华'] },
+      { pinyin:'xīn', correct:'新', options:['新','亲'] },
+    ]
+  },
   b2: {
     titleMain: 'HSK2 bài số 2',
     titleAccent: '- đã thuộc từ vựng chưa?',
@@ -622,10 +1102,15 @@ const LESSONS = {
   }
 };
 
-let currentLessonKey = 'b2';
+let currentLessonKey = 'b1';
 const knownState = {
+  b1: new Array(LESSONS.b1.words.length).fill(false),
   b2: new Array(LESSONS.b2.words.length).fill(false),
   b3: new Array(LESSONS.b3.words.length).fill(false),
+  b4: new Array(LESSONS.b4.words.length).fill(false),
+  b5: new Array(LESSONS.b5.words.length).fill(false),
+  b6: new Array(LESSONS.b6.words.length).fill(false),
+  b7: new Array(LESSONS.b7.words.length).fill(false),
 };
 
 function shuffle(arr){
@@ -811,6 +1296,7 @@ function renderHanziQuiz(){
     </div>
     <p class="quiz-prompt-label">Phiên âm</p>
     <p class="quiz-pinyin-prompt">${item.pinyin}</p>
+    ${item.note ? `<p style="font-size:12.5px;color:var(--muted);margin:-14px 0 18px;">(${item.note})</p>` : ''}
     <div class="quiz-options" id="hanziOptions"></div>
     <p class="quiz-feedback" id="hanziFeedback"></p>
     <div class="quiz-footer">
@@ -967,6 +1453,35 @@ function renderListenQuiz(){
 
 /* ---------------- lesson switching ---------------- */
 const CHALLENGES = {
+  b6: [
+    { hanzi:'<strong>姐姐</strong><strong>经常</strong>在<strong>门外</strong>骑<strong>自行车</strong>。', pinyin:'Jiějie jīngcháng zài ménwài qí zìxíngchē.', nghia:'Chị gái tôi thường xuyên đạp xe đạp ở ngoài cửa.' },
+    { hanzi:'<strong>因为</strong>她喜欢运动，<strong>所以</strong>也喜欢<strong>打篮球</strong>和<strong>游泳</strong>。', pinyin:'Yīnwèi tā xǐhuan yùndòng, suǒyǐ yě xǐhuan dǎ lánqiú hé yóuyǒng.', nghia:'Vì chị ấy thích vận động, nên cũng thích chơi bóng rổ và bơi lội.' },
+    { hanzi:'<strong>游泳</strong>以后，她总是(luôn luôn)很饿，想吃<strong>羊肉</strong><strong>面条</strong>。', pinyin:'Yóuyǒng yǐhòu, tā zǒngshì hěn è, xiǎng chī yángròu miàntiáo.', nghia:'Sau khi bơi, chị ấy luôn rất đói, muốn ăn mì thịt cừu.' },
+    { hanzi:'<strong>因为</strong>上个月她<strong>经常</strong>运动，<strong>所以</strong>瘦(gầy đi)了两<strong>公斤</strong>。', pinyin:'Yīnwèi shàng ge yuè tā jīngcháng yùndòng, suǒyǐ shòu le liǎng gōngjīn.', nghia:'Vì tháng trước chị ấy thường xuyên vận động, nên đã giảm được 2 kg.' },
+  ],
+  b5: [
+    { hanzi:'明天我要<strong>考试</strong>，所以今天晚上要在家<strong>准备</strong>。', pinyin:'Míngtiān wǒ yào kǎoshì, suǒyǐ jīntiān wǎnshang yào zài jiā zhǔnbèi.', nghia:'Ngày mai tôi phải thi, vì vậy tối nay tôi phải ở nhà chuẩn bị.' },
+    { hanzi:'<strong>外面</strong>下雨了，我正好(đúng lúc)不用出去；', pinyin:'Wàimiàn xià yǔ le, wǒ zhènghǎo bú yòng chūqù;', nghia:'Bên ngoài trời đang mưa, tôi đúng lúc không cần ra ngoài;' },
+    { hanzi:'晚饭的时候，妈妈做了一条<strong>鱼</strong>，味道(mùi vị)<strong>不错</strong>，我吃了很多。', pinyin:'Wǎnfàn de shíhou, māma zuò le yì tiáo yú, wèidao búcuò, wǒ chī le hěn duō.', nghia:'Vào bữa tối, mẹ nấu một con cá, mùi vị khá ngon, tôi ăn rất nhiều.' },
+    { hanzi:'吃完饭<strong>以后</strong>，妈妈还送我一<strong>件</strong>新衣服，说是给我<strong>准备</strong><strong>考试</strong>的礼物(quà)。', pinyin:'Chī wán fàn yǐhòu, māma hái sòng wǒ yí jiàn xīn yīfu, shuō shì gěi wǒ zhǔnbèi kǎoshì de lǐwù.', nghia:'Ăn xong, mẹ còn tặng tôi một chiếc áo mới, nói là món quà cho kỳ thi của tôi.' },
+    { hanzi:'我又喝了一杯<strong>咖啡</strong>，继续复习(tiếp tục ôn tập)，觉得<strong>还可以</strong>，应该(chắc là)能考好。', pinyin:'Wǒ yòu hē le yì bēi kāfēi, jìxù fùxí, juéde hái kěyǐ, yīnggāi néng kǎo hǎo.', nghia:'Tôi lại uống thêm một tách cà phê, tiếp tục ôn bài, cảm thấy cũng ổn, chắc sẽ thi tốt.' },
+  ],
+  b4: [
+    { hanzi:'今天是我的<strong>生日</strong>，<strong>晚上</strong>朋友打电话给我。', pinyin:'Jīntiān shì wǒ de shēngrì, wǎnshang péngyou dǎ diànhuà gěi wǒ.', nghia:'Hôm nay là sinh nhật của tôi, buổi tối bạn tôi gọi điện thoại cho tôi.' },
+    { hanzi:'我马上(lập tức)<strong>接</strong>电话，<strong>问</strong>她要不要来我家。', pinyin:'Wǒ mǎshàng jiē diànhuà, wèn tā yào bu yào lái wǒ jiā.', nghia:'Tôi lập tức bắt máy, hỏi cô ấy có muốn đến nhà tôi không.' },
+    { hanzi:'她说<strong>非常</strong>想来，我们<strong>开始</strong>一起准备(chuẩn bị)<strong>生日</strong>会(buổi tiệc)。', pinyin:'Tā shuō fēicháng xiǎng lái, wǒmen kāishǐ yìqǐ zhǔnbèi shēngrì huì.', nghia:'Cô ấy nói rất muốn đến, chúng tôi bắt đầu cùng nhau chuẩn bị tiệc sinh nhật.' },
+    { hanzi:'<strong>已经</strong>晚上八点了，<strong>两</strong>个新朋友也来了。', pinyin:'Yǐjīng wǎnshang bā diǎn le, liǎng ge xīn péngyou yě lái le.', nghia:'Đã 8 giờ tối rồi, hai người bạn mới cũng đến.' },
+    { hanzi:'我<strong>帮</strong>他们互相(lẫn nhau)<strong>介绍</strong>，大家都很<strong>快乐</strong>。', pinyin:'Wǒ bāng tāmen hùxiāng jièshào, dàjiā dōu hěn kuàilè.', nghia:'Tôi giúp họ giới thiệu với nhau, mọi người đều rất vui vẻ.' },
+    { hanzi:'晚会(buổi tiệc tối)很<strong>长</strong>，但是大家都很高兴。', pinyin:'Wǎnhuì hěn cháng, dànshì dàjiā dōu hěn gāoxìng.', nghia:'Buổi tiệc tối kéo dài, nhưng mọi người đều rất vui.' },
+  ],
+  b1: [
+    { hanzi:'我<strong>觉得</strong><strong>旅游</strong>是<strong>最</strong>好的<strong>运动</strong>。', pinyin:'Wǒ juéde lǚyóu shì zuì hǎo de yùndòng.', nghia:'Tôi cảm thấy du lịch là môn vận động tốt nhất.' },
+    { hanzi:'<strong>为什么</strong>呢？因为<strong>旅游</strong>的时候，我们<strong>要</strong>走路(đi bộ)，<strong>也</strong><strong>要</strong>爬山(leo núi)。', pinyin:'Wèishénme ne? Yīnwèi lǚyóu de shíhou, wǒmen yào zǒulù, yě yào páshān.', nghia:'Tại sao vậy? Vì khi du lịch, chúng ta cần đi bộ, cũng cần leo núi.' },
+    { hanzi:'我喜欢和朋友<strong>一起</strong>去<strong>旅游</strong>。', pinyin:'Wǒ xǐhuan hé péngyou yìqǐ qù lǚyóu.', nghia:'Tôi thích cùng bạn bè đi du lịch.' },
+    { hanzi:'这个夏天(mùa hè)，我们<strong>要</strong>去一个<strong>新</strong>的地方(nơi)。', pinyin:'Zhège xiàtiān, wǒmen yào qù yí ge xīn de dìfang.', nghia:'Mùa hè này, chúng tôi sẽ đến một nơi mới.' },
+    { hanzi:'那里有很多<strong>花</strong>，<strong>眼睛</strong>看不完(không nhìn xuể)。', pinyin:'Nàli yǒu hěn duō huā, yǎnjīng kàn bu wán.', nghia:'Ở đó có rất nhiều hoa, mắt nhìn không xuể.' },
+    { hanzi:'我们还喜欢<strong>踢足球</strong>，<strong>它</strong>是我<strong>最</strong>喜欢的<strong>运动</strong>。', pinyin:'Wǒmen hái xǐhuan tī zúqiú, tā shì wǒ zuì xǐhuan de yùndòng.', nghia:'Chúng tôi còn thích đá bóng, nó là môn thể thao tôi thích nhất.' },
+  ],
   b2: [
     { hanzi:'大卫<strong>每天</strong>都很<strong>忙</strong>。', pinyin:'Dàwèi měi tiān dōu hěn máng.', nghia:'David mỗi ngày đều rất bận.' },
     { hanzi:'他早上七点<strong>起床</strong>，吃xong早饭liền<strong>出门</strong>。', pinyin:'Tā zǎoshang qī diǎn qǐchuáng, chī wán zǎofàn jiù chūmén.', nghia:'Anh ấy dậy lúc 7 giờ sáng, ăn xong bữa sáng thì ra khỏi nhà.' },
@@ -988,9 +1503,16 @@ const CHALLENGES = {
 };
 
 function renderChallenge(){
+  const section = document.getElementById('challengeSection');
+  const sentences = CHALLENGES[currentLessonKey];
+  if(!sentences || sentences.length === 0){
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
   const wrap = document.getElementById('challengeList');
   wrap.innerHTML = '';
-  CHALLENGES[currentLessonKey].forEach((s, i)=>{
+  sentences.forEach((s, i)=>{
     const item = document.createElement('div');
     item.className = 'challenge-item';
     item.innerHTML = `
